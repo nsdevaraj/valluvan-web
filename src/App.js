@@ -195,11 +195,6 @@ function App() {
         searchTerm,
         selectedLanguage
       );
-      console.log(
-        coupletArray[0][
-          getLanguageSpecificColumns(selectedLanguage).secondLineColumn
-        ]
-      );
       let couplet = {
         kno: searchTerm,
         couplet: coupletArray[0],

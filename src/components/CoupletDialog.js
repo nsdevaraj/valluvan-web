@@ -21,6 +21,10 @@ function CoupletDialog({
   relatedCouplets,
   getLanguageSpecificColumns,
 }) {
+  if (!selectedCouplet) {
+    return null;
+  }
+
   const renderRelatedKurals = (relatedCouplets) => {
     return relatedCouplets.map((couplet) => (
       <Accordion key={couplet.kno}>
@@ -123,15 +127,15 @@ CoupletDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedCouplet: PropTypes.shape({
-    kno: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    kno: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     couplet: PropTypes.shape({
-      firstLineColumn: PropTypes.string.isRequired,
-      secondLineColumn: PropTypes.string.isRequired,
-    }).isRequired,
+      firstLineColumn: PropTypes.string,
+      secondLineColumn: PropTypes.string,
+    }),
     explanation: PropTypes.shape({
       explanation: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
+    }),
+  }),
   selectedLanguage: PropTypes.string.isRequired,
   relatedCouplets: PropTypes.array,
   getLanguageSpecificColumns: PropTypes.func.isRequired,
