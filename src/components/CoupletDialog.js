@@ -12,7 +12,7 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import { getHeadingTranslation } from "../utils/TranslationUtil";
 function CoupletDialog({
   open,
   onClose,
@@ -75,7 +75,9 @@ function CoupletDialog({
       <DialogContent>
         {selectedCouplet && (
           <>
-            <Typography variant="h6">Couplet:</Typography>
+            <Typography variant="h6">
+              {selectedLanguage !== "Tamil" ? "Couplet:" : "குறள்:"}
+            </Typography>
             <Typography>
               {selectedCouplet.couplet?.[
                 getLanguageSpecificColumns(selectedLanguage).firstLineColumn
@@ -97,7 +99,9 @@ function CoupletDialog({
                 (column) =>
                   selectedCouplet.explanation[column] && (
                     <div key={column}>
-                      <Typography variant="subtitle1">{column}:</Typography>
+                      <Typography variant="subtitle1">
+                        {getHeadingTranslation(column, selectedLanguage)}:
+                      </Typography>
                       <Typography>
                         {selectedCouplet.explanation[column]}
                       </Typography>
@@ -107,7 +111,7 @@ function CoupletDialog({
             ) : (
               <Typography>
                 {selectedCouplet.explanation.explanation || "N/A"}
-              </Typography> // Add a fallback value
+              </Typography>
             )}
             <Typography variant="h6" style={{ marginTop: "1rem" }}>
               Related Kurals:
