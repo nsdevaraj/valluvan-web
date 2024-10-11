@@ -16,7 +16,8 @@ class DbManager {
     this.isAttached = false;
     this.initPromise = null;
 
-    this.apiKey = process.env.OPENAI_API_KEY || "";
+    // Update to use the Netlify environment variable
+    this.apiKey = process.env.REACT_APP_OPENAI_API_KEY || "";
 
     this.singletonDb = [];
     setTimeout(() => this.loadSingletonDb(), 2000);
