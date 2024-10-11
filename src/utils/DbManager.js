@@ -5,8 +5,6 @@ import {
   getTitlesByLanguage,
 } from "./TranslationUtil";
 
-//const fetch = require("node-fetch");
-
 class DbManager {
   constructor() {
     if (DbManager.instance) {

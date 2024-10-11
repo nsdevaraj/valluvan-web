@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   TextField,
@@ -113,5 +114,15 @@ function SearchView({
     </Box>
   );
 }
+
+SearchView.propTypes = {
+  searchTerm: PropTypes.string.isRequired,
+  selectedLanguage: PropTypes.string.isRequired,
+  handleSearchChange: PropTypes.func.isRequired,
+  handleSearchSubmit: PropTypes.func.isRequired,
+  handlePredefinedSearch: PropTypes.func.isRequired,
+  languages: PropTypes.array.isRequired,
+  handleLanguageChange: PropTypes.func.isRequired,
+};
 
 export default SearchView;

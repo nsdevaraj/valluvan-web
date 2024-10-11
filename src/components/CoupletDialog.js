@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Dialog,
   DialogTitle,
@@ -117,5 +118,19 @@ function CoupletDialog({
     </Dialog>
   );
 }
+
+CoupletDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  selectedCouplet: PropTypes.shape({
+    kno: PropTypes.string,
+    explanation: PropTypes.shape({
+      explanation: PropTypes.string,
+    }),
+  }),
+  selectedLanguage: PropTypes.string.isRequired,
+  relatedCouplets: PropTypes.array,
+  getLanguageSpecificColumns: PropTypes.func.isRequired,
+};
 
 export default CoupletDialog;

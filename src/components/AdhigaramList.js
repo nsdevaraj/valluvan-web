@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Accordion,
   AccordionSummary,
@@ -114,5 +115,19 @@ function AdhigaramList({
     </List>
   );
 }
+
+AdhigaramList.propTypes = {
+  chapters: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  heading: PropTypes.string.isRequired,
+  selectedLanguage: PropTypes.string.isRequired,
+  expandedChapter: PropTypes.string,
+  expandedChapters: PropTypes.object.isRequired,
+  handleChapterClick: PropTypes.func.isRequired,
+  fetchExplanation: PropTypes.func.isRequired,
+  setSelectedCouplet: PropTypes.func.isRequired,
+  setDialogOpen: PropTypes.func.isRequired,
+  adhigaramID: PropTypes.number,
+};
 
 export default AdhigaramList;

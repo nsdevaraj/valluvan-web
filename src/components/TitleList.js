@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Accordion,
   AccordionSummary,
@@ -97,5 +98,22 @@ function TitleList({
     </div>
   );
 }
+
+TitleList.propTypes = {
+  titles: PropTypes.array.isRequired,
+  headings: PropTypes.object.isRequired,
+  chapters: PropTypes.object.isRequired,
+  selectedLanguage: PropTypes.string.isRequired,
+  expandedTitle: PropTypes.string,
+  expandedHeadings: PropTypes.object.isRequired,
+  expandedChapter: PropTypes.string,
+  expandedChapters: PropTypes.object.isRequired,
+  handleTitleChange: PropTypes.func.isRequired,
+  handleHeadingChange: PropTypes.func.isRequired,
+  handleChapterClick: PropTypes.func.isRequired,
+  fetchExplanation: PropTypes.func.isRequired,
+  setSelectedCouplet: PropTypes.func.isRequired,
+  setDialogOpen: PropTypes.func.isRequired,
+};
 
 export default TitleList;
