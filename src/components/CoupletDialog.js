@@ -33,18 +33,20 @@ function CoupletDialog({
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            {
-              couplet[
+            {couplet[
+              getLanguageSpecificColumns(selectedLanguage).firstLineColumn
+            ] ||
+              selectedCouplet[
                 getLanguageSpecificColumns(selectedLanguage).firstLineColumn
-              ] || "N/A" // Add a fallback value
-            }
+              ]}
           </Typography>
           <Typography>
-            {
-              couplet[
+            {couplet[
+              getLanguageSpecificColumns(selectedLanguage).secondLineColumn
+            ] ||
+              selectedCouplet[
                 getLanguageSpecificColumns(selectedLanguage).secondLineColumn
-              ] || "N/A" // Add a fallback value
-            }
+              ]}
           </Typography>
           <Typography variant="subtitle2" style={{ marginTop: "0.5rem" }}>
             Explanation:
@@ -52,7 +54,10 @@ function CoupletDialog({
           <Typography>
             {couplet[
               getLanguageSpecificColumns(selectedLanguage).explanation
-            ] || "N/A"}{" "}
+            ] ||
+              selectedCouplet[
+                getLanguageSpecificColumns(selectedLanguage).explanation
+              ]}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -81,12 +86,18 @@ function CoupletDialog({
             <Typography>
               {selectedCouplet.couplet?.[
                 getLanguageSpecificColumns(selectedLanguage).firstLineColumn
-              ] || "N/A"}
+              ] ||
+                selectedCouplet[
+                  getLanguageSpecificColumns(selectedLanguage).firstLineColumn
+                ]}
             </Typography>
             <Typography>
               {selectedCouplet.couplet?.[
                 getLanguageSpecificColumns(selectedLanguage).secondLineColumn
-              ] || "N/A"}
+              ] ||
+                selectedCouplet[
+                  getLanguageSpecificColumns(selectedLanguage).secondLineColumn
+                ]}
             </Typography>
             <Typography variant="h6" style={{ marginTop: "1rem" }}>
               {selectedLanguage === "Tamil" ||
