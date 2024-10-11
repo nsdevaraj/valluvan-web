@@ -190,7 +190,21 @@ function App() {
     if (!isNaN(searchTerm) && searchTerm.trim() !== "") {
       const explanation = await fetchExplanation(searchTerm, selectedLanguage);
       setDialogOpen(true);
-      let couplet = { kno: searchTerm, explanation: explanation };
+
+      const coupletArray = await dbManagerInstance.fetchCouplet(
+        searchTerm,
+        selectedLanguage
+      );
+      console.log(
+        coupletArray[0][
+          getLanguageSpecificColumns(selectedLanguage).secondLineColumn
+        ]
+      );
+      let couplet = {
+        kno: searchTerm,
+        couplet: coupletArray[0],
+        explanation: explanation,
+      };
       setSelectedCouplet(couplet);
     } else if (searchTerm.trim() !== "") {
       let relatedIds = await dbManagerInstance.searchSentences(

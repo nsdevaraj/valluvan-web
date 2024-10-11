@@ -72,14 +72,14 @@ function CoupletDialog({
             <Typography variant="h6">Couplet:</Typography>
             <Typography>
               {
-                selectedCouplet[
+                selectedCouplet.couplet[
                   getLanguageSpecificColumns(selectedLanguage).firstLineColumn
                 ]
               }
             </Typography>
             <Typography>
               {
-                selectedCouplet[
+                selectedCouplet.couplet[
                   getLanguageSpecificColumns(selectedLanguage).secondLineColumn
                 ]
               }
@@ -123,11 +123,15 @@ CoupletDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedCouplet: PropTypes.shape({
-    kno: PropTypes.string,
+    kno: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    couplet: PropTypes.shape({
+      firstLineColumn: PropTypes.string.isRequired,
+      secondLineColumn: PropTypes.string.isRequired,
+    }).isRequired,
     explanation: PropTypes.shape({
       explanation: PropTypes.string,
-    }),
-  }),
+    }).isRequired,
+  }).isRequired,
   selectedLanguage: PropTypes.string.isRequired,
   relatedCouplets: PropTypes.array,
   getLanguageSpecificColumns: PropTypes.func.isRequired,

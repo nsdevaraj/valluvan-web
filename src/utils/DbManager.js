@@ -399,6 +399,35 @@ class DbManager {
     return [];
   }
 
+  async fetchCouplet(Kno, selectedLanguage) {
+    await this.ensureDbInitialized();
+    if (this.db) {
+      try {
+        const conn = await this.db.connect();
+        const { firstLineColumn, secondLineColumn, explanation } =
+          getLanguageSpecificColumns(selectedLanguage);
+
+        let selectPart = `kno, ${firstLineColumn}`;
+        if (secondLineColumn) {
+          selectPart += `, ${secondLineColumn}`;
+        }
+        selectPart += `, ${explanation}`;
+
+        const result = await conn.query(`
+          SELECT ${selectPart}
+          FROM vallu.tirukkural
+          WHERE kno = ${Kno}
+        `);
+        await conn.close();
+        return result.toArray();
+      } catch (error) {
+        console.error("Error fetching related couplets:", error);
+        throw new Error("Failed to fetch related couplets");
+      }
+    }
+    return [];
+  }
+
   async fetchExplanation(kno, language) {
     await this.ensureDbInitialized();
     try {
