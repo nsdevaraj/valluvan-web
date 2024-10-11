@@ -20,7 +20,7 @@ class DbManager {
     this.apiKey = process.env.REACT_APP_OPENAI_API_KEY || "";
 
     this.singletonDb = [];
-    setTimeout(() => this.loadSingletonDb(), 2000);
+    setTimeout(() => this.loadSingletonDb(), 10000);
     this.initializationStatus = "not started";
   }
 
