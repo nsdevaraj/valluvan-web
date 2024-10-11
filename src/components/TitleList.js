@@ -104,7 +104,7 @@ TitleList.propTypes = {
   headings: PropTypes.object.isRequired,
   chapters: PropTypes.object.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
-  expandedTitle: PropTypes.string,
+  expandedTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   expandedHeadings: PropTypes.object.isRequired,
   expandedChapter: PropTypes.string,
   expandedChapters: PropTypes.object.isRequired,

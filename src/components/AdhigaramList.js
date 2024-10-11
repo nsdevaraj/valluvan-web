@@ -52,7 +52,7 @@ function AdhigaramList({
                 }
                 . {getAdhigaramTranslation(chapter, selectedLanguage)}
               </Typography>
-              <div style={{ marginLeft: "auto" }}>
+              <div style={{ marginLeft: "auto", width: "50%" }}>
                 <audio
                   ref={(audio) => {
                     if (audio && selectedLanguage !== "Tamil") {
@@ -67,7 +67,7 @@ function AdhigaramList({
                           .padStart(3, "0")}.mp3`
                   }`}
                   controls
-                  style={{ height: "30px" }}
+                  style={{ height: "30px", width: "100%" }}
                 />
               </div>
             </AccordionSummary>
