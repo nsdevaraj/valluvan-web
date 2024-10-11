@@ -36,21 +36,23 @@ function CoupletDialog({
             {
               couplet[
                 getLanguageSpecificColumns(selectedLanguage).firstLineColumn
-              ]
+              ] || "N/A" // Add a fallback value
             }
           </Typography>
           <Typography>
             {
               couplet[
                 getLanguageSpecificColumns(selectedLanguage).secondLineColumn
-              ]
+              ] || "N/A" // Add a fallback value
             }
           </Typography>
           <Typography variant="subtitle2" style={{ marginTop: "0.5rem" }}>
             Explanation:
           </Typography>
           <Typography>
-            {couplet[getLanguageSpecificColumns(selectedLanguage).explanation]}
+            {couplet[
+              getLanguageSpecificColumns(selectedLanguage).explanation
+            ] || "N/A"}{" "}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -75,18 +77,14 @@ function CoupletDialog({
           <>
             <Typography variant="h6">Couplet:</Typography>
             <Typography>
-              {
-                selectedCouplet.couplet[
-                  getLanguageSpecificColumns(selectedLanguage).firstLineColumn
-                ]
-              }
+              {selectedCouplet.couplet?.[
+                getLanguageSpecificColumns(selectedLanguage).firstLineColumn
+              ] || "N/A"}
             </Typography>
             <Typography>
-              {
-                selectedCouplet.couplet[
-                  getLanguageSpecificColumns(selectedLanguage).secondLineColumn
-                ]
-              }
+              {selectedCouplet.couplet?.[
+                getLanguageSpecificColumns(selectedLanguage).secondLineColumn
+              ] || "N/A"}
             </Typography>
             <Typography variant="h6" style={{ marginTop: "1rem" }}>
               {selectedLanguage === "Tamil" ||
@@ -107,7 +105,9 @@ function CoupletDialog({
                   )
               )
             ) : (
-              <Typography>{selectedCouplet.explanation.explanation}</Typography>
+              <Typography>
+                {selectedCouplet.explanation.explanation || "N/A"}
+              </Typography> // Add a fallback value
             )}
             <Typography variant="h6" style={{ marginTop: "1rem" }}>
               Related Kurals:

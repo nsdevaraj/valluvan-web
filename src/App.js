@@ -215,8 +215,14 @@ function App() {
     console.log(relatedIds);
     const explanation = await fetchExplanation(relatedIds[0], selectedLanguage);
     setDialogOpen(true);
+
+    const coupletArray = await dbManagerInstance.fetchCouplet(
+      relatedIds[0],
+      selectedLanguage
+    );
     let couplet = {
       kno: relatedIds[0],
+      couplet: coupletArray[0],
       explanation: explanation,
       relatedIds: relatedIds,
     };
