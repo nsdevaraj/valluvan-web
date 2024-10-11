@@ -1,2 +1,4 @@
 #Valluvan
 
+Favorites
+Theme
