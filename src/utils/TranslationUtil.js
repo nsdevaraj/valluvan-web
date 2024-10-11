@@ -13,7 +13,7 @@ const titlesByLanguage = {
   malayalam: ["മന്നാല്‍", "പരിപാലനം", "അന്തരാളികം പ്രിയം"],
   polish: ["Dobroć", "Bogactwo", "Natura miłości"],
   russian: ["Добродетель", "Богатство", "Суть любви"],
-  sinhala: ["දානය", "අරමුණ", "සතුට"],
+  singalam: ["දානය", "අරමුණ", "සතුට"],
   swedish: ["Dygd", "Välst", "Kärlekens natur"],
 };
 

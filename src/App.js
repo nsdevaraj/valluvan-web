@@ -24,7 +24,7 @@ function App() {
   const languages = [
     { code: "Tamil", name: "தமிழ்" },
     { code: "English", name: "English" },
-    { code: "telugu", name: "ెలుగు" },
+    { code: "telugu", name: "తెలుగు" },
     { code: "hindi", name: "हिन्दी" },
     { code: "kannad", name: "ಕನ್ನಡ" },
     { code: "french", name: "Français" },
@@ -36,7 +36,7 @@ function App() {
     { code: "malayalam", name: "മലയാളം" },
     { code: "polish", name: "Polski" },
     { code: "russian", name: "Русский" },
-    { code: "sinhala", name: "සිංහල" },
+    { code: "singalam", name: "සිංහල" },
     { code: "swedish", name: "Svenska" },
   ];
   const [selectedLanguage, setSelectedLanguage] = useState("Tamil");
