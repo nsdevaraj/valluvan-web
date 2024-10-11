@@ -221,12 +221,11 @@ class DbManager {
       return this.initPromise;
     }
 
-    this.initPromise = new Promise(async (resolve, reject) => {
+    this.initPromise = (async () => {
       try {
         if (this.db && this.isAttached) {
           console.log("Database already initialized and attached");
-          resolve(this.db);
-          return;
+          return this.db;
         }
 
         if (!this.db) {
@@ -272,16 +271,14 @@ class DbManager {
         }
 
         console.log("Database initialized successfully");
-        resolve(this.db);
+        return this.db;
       } catch (error) {
         console.error("Error initializing DuckDB or loading db:", error);
-        reject(
-          new Error(
-            `Failed to initialize database or load db: ${error.message}`
-          )
+        throw new Error(
+          `Failed to initialize database or load db: ${error.message}`
         );
       }
-    });
+    })();
 
     return this.initPromise;
   }
