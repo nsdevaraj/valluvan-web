@@ -34,11 +34,33 @@ function AdhigaramList({
             expanded={expandedChapter === chapterKey}
             onChange={() => handleChapterClick(title, heading, chapter)}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Typography>
+                {String((chapterIndex + 9) / 10) + 1}.{" "}
                 {getAdhigaramTranslation(chapter, selectedLanguage)}
               </Typography>
+              <div style={{ marginLeft: "auto" }}>
+                <audio
+                  src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/${
+                    selectedLanguage === "Tamil"
+                      ? `Sounds/${encodeURIComponent(chapter)}.mp3`
+                      : `EnglishAudio/${chapterIndex
+                          .toString()
+                          .padStart(3, "0")}.mp3`
+                  }`}
+                  controls
+                  style={{ height: "30px" }}
+                />
+              </div>
             </AccordionSummary>
+
             <AccordionDetails>
               {expandedChapter === chapterKey &&
               expandedChapters[chapterKey] ? (

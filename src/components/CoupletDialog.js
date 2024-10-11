@@ -55,6 +55,16 @@ function CoupletDialog({
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Kural {parseInt(selectedCouplet?.kno)}</DialogTitle>
+
+      <div style={{ marginLeft: "auto" }}>
+        <audio
+          src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/Kural/${String(
+            selectedCouplet?.kno
+          )}.mp3`}
+          controls
+          style={{ height: "30px" }}
+        />
+      </div>
       <DialogContent>
         {selectedCouplet && (
           <>
