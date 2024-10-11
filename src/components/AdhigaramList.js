@@ -23,6 +23,7 @@ function AdhigaramList({
   fetchExplanation,
   setSelectedCouplet,
   setDialogOpen,
+  adhigaramID = 0,
 }) {
   return (
     <List>
@@ -43,15 +44,24 @@ function AdhigaramList({
               }}
             >
               <Typography>
-                {String((chapterIndex + 9) / 10) + 1}.{" "}
-                {getAdhigaramTranslation(chapter, selectedLanguage)}
+                {
+                  (adhigaramID =
+                    parseInt(chapters[title][heading + "Knos"][chapterIndex]) /
+                    10)
+                }
+                . {getAdhigaramTranslation(chapter, selectedLanguage)}
               </Typography>
               <div style={{ marginLeft: "auto" }}>
                 <audio
+                  ref={(audio) => {
+                    if (audio && selectedLanguage !== "Tamil") {
+                      audio.currentTime = 20;
+                    }
+                  }}
                   src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/${
                     selectedLanguage === "Tamil"
                       ? `Sounds/${encodeURIComponent(chapter)}.mp3`
-                      : `EnglishAudio/${chapterIndex
+                      : `EnglishAudio/${adhigaramID
                           .toString()
                           .padStart(3, "0")}.mp3`
                   }`}

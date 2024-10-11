@@ -90,11 +90,14 @@ function App() {
         heading,
         selectedLanguage
       );
+      const adhigaramKnos = chaptersArray.map((chapter) => chapter.kno);
+      const adhigaramChapters = chaptersArray.map((chapter) => chapter.chapter);
       setChapters((prev) => ({
         ...prev,
         [title]: {
           ...prev[title],
-          [heading]: chaptersArray,
+          [heading]: adhigaramChapters,
+          [heading + "Knos"]: adhigaramKnos,
         },
       }));
     } catch (error) {

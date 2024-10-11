@@ -328,14 +328,17 @@ class DbManager {
       const { headingColumn, chapterColumn } =
         getLanguageSpecificColumns(selectedLanguage);
       const result = await conn.query(`
-        SELECT ${chapterColumn}
+        SELECT ${chapterColumn}, MAX(kno) as kno
         FROM vallu.tirukkural
         WHERE pal = '${title}' AND ${headingColumn} = '${heading}'
         GROUP BY ${chapterColumn}
         ORDER BY MIN(kno)
       `);
 
-      const chaptersArray = result.toArray().map((row) => row[chapterColumn]);
+      const chaptersArray = result.toArray().map((row) => ({
+        chapter: row[chapterColumn],
+        kno: row.kno,
+      }));
       await conn.close();
       return chaptersArray;
     } catch (error) {
