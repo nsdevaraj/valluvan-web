@@ -31,14 +31,31 @@ function NetworkGraph({ setSearchTerm }) {
       });
     }
     return { nodes, edges };
-  }, [data.counts, data.links]);
+  }, []);
 
   useEffect(() => {
     if (!networkRef.current) {
       console.error("Network container is not available.");
       return;
     }
-
+    const defaultLayout = {
+      name: "cose",
+      idealEdgeLength: 100,
+      nodeOverlap: 20,
+      refresh: 20,
+      fit: true,
+      padding: 30,
+      randomize: true,
+      componentSpacing: 100,
+      nodeRepulsion: 400000,
+      edgeElasticity: 100,
+      nestingFactor: 5,
+      gravity: 80,
+      numIter: 1000,
+      initialTemp: 200,
+      coolingFactor: 0.95,
+      minTemp: 1.0,
+    };
     const timeoutId = setTimeout(() => {
       const cy = cytoscape({
         container: networkRef.current,
@@ -64,24 +81,7 @@ function NetworkGraph({ setSearchTerm }) {
             },
           },
         ],
-        layout: {
-          name: "cose",
-          idealEdgeLength: 100,
-          nodeOverlap: 20,
-          refresh: 20,
-          fit: true,
-          padding: 30,
-          randomize: true,
-          componentSpacing: 100,
-          nodeRepulsion: 400000,
-          edgeElasticity: 100,
-          nestingFactor: 5,
-          gravity: 80,
-          numIter: 1000,
-          initialTemp: 200,
-          coolingFactor: 0.95,
-          minTemp: 1.0,
-        },
+        layout: defaultLayout,
       });
 
       const handleNodeTap = debounce((event) => {
@@ -97,6 +97,12 @@ function NetworkGraph({ setSearchTerm }) {
       }, 300);
 
       cy.on("tap", "node", handleNodeTap);
+
+      const resetLayout = () => {
+        cy.layout(defaultLayout).run();
+      };
+
+      window.resetLayout = resetLayout;
 
       return () => {
         console.log("Destroying Cytoscape instance");
@@ -119,6 +125,12 @@ function NetworkGraph({ setSearchTerm }) {
           </h4>
         </div>
       )}
+      <button
+        onClick={() => window.resetLayout()}
+        style={{ marginTop: "10px" }}
+      >
+        Reset Zoom
+      </button>
     </div>
   );
 }
