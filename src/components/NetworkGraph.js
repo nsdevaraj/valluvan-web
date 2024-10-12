@@ -5,12 +5,21 @@ import data from "./data.json";
 function NetworkGraph() {
   const networkRef = useRef(null);
   data.nodes = [];
+  data.edges = [];
   for (let i = 0; i < 1331; i++) {
     data.nodes.push({
       id: i,
-      label: String(i),
+      label: `Kno ${i}`,
     });
   }
+
+  for (let i = 0; i < 1330; i++) {
+    data.edges.push({
+      from: i,
+      to: i + 1,
+    });
+  }
+
   useEffect(() => {
     const container = networkRef.current;
     const options = {
@@ -28,6 +37,9 @@ function NetworkGraph() {
       },
       physics: {
         enabled: true,
+      },
+      layout: {
+        improvedLayout: false,
       },
     };
 

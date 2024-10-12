@@ -181,7 +181,7 @@ class DbManager {
     try {
       const conn = await this.db.connect();
       const query =
-        "SELECT kno, embeddings, related_rows FROM vallu.tirukkural WHERE embeddings IS NOT NULL";
+        "SELECT kno, embeddings FROM vallu.tirukkural WHERE embeddings IS NOT NULL"; // related_rows
       const result = await conn.query(query);
       const rows = result.toArray();
 
@@ -199,21 +199,21 @@ class DbManager {
         })
         .filter((embedding) => embedding !== null);
 
-      const allRelatedRows = rows
-        .map((row) => {
-          const id = row.kno;
-          const relatedRows = row.related_rows;
-          if (relatedRows) {
-            return relatedRows;
-          } else {
-            console.log(`Failed to process related rows for kno ${id}`);
-            return null;
-          }
-        })
-        .filter((relatedRows) => relatedRows !== null);
+      // const allRelatedRows = rows
+      //   .map((row) => {
+      //     const id = row.kno;
+      //     const relatedRows = row.related_rows;
+      //     if (relatedRows) {
+      //       return relatedRows;
+      //     } else {
+      //       console.log(`Failed to process related rows for kno ${id}`);
+      //       return null;
+      //     }
+      //   })
+      //   .filter((relatedRows) => relatedRows !== null);
 
       await conn.close();
-      return { embeddings: allEmbeddings, relatedRows: allRelatedRows };
+      return { embeddings: allEmbeddings, relatedRows: [] };
     } catch (error) {
       console.error("Error fetching related kurals:", error);
       return [];
