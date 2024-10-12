@@ -49,8 +49,8 @@ function NetworkGraph() {
         },
       ],
       layout: {
-        name: "grid",
-        rows: 40,
+        name: "random",
+        rows: 133,
       },
     });
 
@@ -59,7 +59,9 @@ function NetworkGraph() {
     };
   }, []);
 
-  return <div ref={networkRef} style={{ height: "600px" }} />;
+  return (
+    <div ref={networkRef} style={{ height: "600px", background: "black" }} />
+  );
 }
 
 export default NetworkGraph;
