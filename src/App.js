@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, lazy, Suspense } from "react";
 import {
   Box,
   Container,
@@ -32,7 +32,8 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SQLBrowser from "./components/SQLBrowser";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import NetworkGraph from "./components/NetworkGraph";
+
+const NetworkGraph = lazy(() => import("./components/NetworkGraph"));
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -400,7 +401,9 @@ function App() {
               <Typography variant="h6">Kural Graph</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <NetworkGraph />
+              <Suspense fallback={<div>Loading Network Graph...</div>}>
+                <NetworkGraph setSearchTerm={setSearchTerm} />
+              </Suspense>
             </AccordionDetails>
           </Accordion>
         </Box>
