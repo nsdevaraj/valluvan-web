@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 import { defaultSearchOptions } from "../utils/PresetSearch";
 import { getHeadingTranslation } from "../utils/TranslationUtil";
 
@@ -62,9 +63,9 @@ function SearchView({
             ),
           }}
         />
-        <Button variant="contained" onClick={handleSearchSubmit}>
-          AI Search
-        </Button>
+        <IconButton onClick={handleSearchSubmit} color="primary">
+          <SearchIcon />
+        </IconButton>
         <Select
           labelId="language-select-label"
           id="language-select"

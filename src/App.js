@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Box, Container } from "@mui/material";
+import { Box, Container, IconButton, CssBaseline } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   getTitlesByLanguage,
   getLanguageSpecificColumns,
@@ -11,6 +12,7 @@ import SearchView from "./components/SearchView";
 import { defaultSearchOptions } from "./utils/PresetSearch";
 import { getHeadingTranslation } from "./utils/TranslationUtil";
 import logo from "./logo.svg"; // Add this line to import the logo
+import { Brightness4, Brightness7 } from "@mui/icons-material"; // Import icons
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -22,6 +24,13 @@ function App() {
   const [expandedHeadings, setExpandedHeadings] = useState({});
   const [expandedChapter, setExpandedChapter] = useState(null);
   const [expandedChapters, setExpandedChapters] = useState({});
+  const [selectedLanguage, setSelectedLanguage] = useState("Tamil");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedCouplet, setSelectedCouplet] = useState(null);
+  const [relatedCouplets, setRelatedCouplets] = useState([]);
+  const [retryCount, setRetryCount] = useState(0);
+  const [darkMode, setDarkMode] = useState(false);
+
   const languages = [
     { code: "Tamil", name: "தமிழ்" },
     { code: "English", name: "English" },
@@ -40,16 +49,25 @@ function App() {
     { code: "singalam", name: "සිංහල" },
     { code: "swedish", name: "Svenska" },
   ];
-  const [selectedLanguage, setSelectedLanguage] = useState("Tamil");
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedCouplet, setSelectedCouplet] = useState(null);
-  const [relatedCouplets, setRelatedCouplets] = useState([]);
-  const [retryCount, setRetryCount] = useState(0);
 
   const titles = useMemo(
     () => getTitlesByLanguage(selectedLanguage),
     [selectedLanguage]
   );
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: darkMode ? "dark" : "light",
+        },
+      }),
+    [darkMode]
+  );
+
+  const toggleTheme = () => {
+    setDarkMode((prevMode) => !prevMode);
+  };
 
   useEffect(() => {
     const initDB = async () => {
@@ -261,49 +279,57 @@ function App() {
   }
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ my: 4 }}>
-        <img
-          src={logo}
-          alt="Valluvan"
-          style={{ width: "40px", height: "auto" }}
-        />{" "}
-        <SearchView
-          searchTerm={searchTerm}
-          selectedLanguage={selectedLanguage}
-          handleSearchChange={handleSearchChange}
-          handleSearchSubmit={handleSearchSubmit}
-          handlePredefinedSearch={handlePredefinedSearch}
-          languages={languages}
-          handleLanguageChange={handleLanguageChange}
-        />
-        <TitleList
-          titles={titles}
-          headings={headings}
-          chapters={chapters}
-          selectedLanguage={selectedLanguage}
-          expandedTitle={expandedTitle}
-          expandedHeadings={expandedHeadings}
-          expandedChapter={expandedChapter}
-          expandedChapters={expandedChapters}
-          handleTitleChange={handleTitleChange}
-          handleHeadingChange={handleHeadingChange}
-          handleChapterClick={handleChapterClick}
-          fetchExplanation={fetchExplanation}
-          setSelectedCouplet={setSelectedCouplet}
-          setDialogOpen={setDialogOpen}
-          searchTerm={searchTerm}
-        />
-        <CoupletDialog
-          open={dialogOpen}
-          onClose={() => setDialogOpen(false)}
-          selectedCouplet={selectedCouplet}
-          selectedLanguage={selectedLanguage}
-          relatedCouplets={relatedCouplets}
-          getLanguageSpecificColumns={getLanguageSpecificColumns}
-        />
-      </Box>
-    </Container>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="lg">
+        <Box sx={{ my: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <img
+              src={darkMode ? "./black.svg" : logo}
+              alt="Valluvan"
+              style={{ width: "40px", height: "auto" }}
+            />
+            <IconButton onClick={toggleTheme}>
+              {darkMode ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+          </Box>
+          <SearchView
+            searchTerm={searchTerm}
+            selectedLanguage={selectedLanguage}
+            handleSearchChange={handleSearchChange}
+            handleSearchSubmit={handleSearchSubmit}
+            handlePredefinedSearch={handlePredefinedSearch}
+            languages={languages}
+            handleLanguageChange={handleLanguageChange}
+          />
+          <TitleList
+            titles={titles}
+            headings={headings}
+            chapters={chapters}
+            selectedLanguage={selectedLanguage}
+            expandedTitle={expandedTitle}
+            expandedHeadings={expandedHeadings}
+            expandedChapter={expandedChapter}
+            expandedChapters={expandedChapters}
+            handleTitleChange={handleTitleChange}
+            handleHeadingChange={handleHeadingChange}
+            handleChapterClick={handleChapterClick}
+            fetchExplanation={fetchExplanation}
+            setSelectedCouplet={setSelectedCouplet}
+            setDialogOpen={setDialogOpen}
+            searchTerm={searchTerm}
+          />
+          <CoupletDialog
+            open={dialogOpen}
+            onClose={() => setDialogOpen(false)}
+            selectedCouplet={selectedCouplet}
+            selectedLanguage={selectedLanguage}
+            relatedCouplets={relatedCouplets}
+            getLanguageSpecificColumns={getLanguageSpecificColumns}
+          />
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
 
