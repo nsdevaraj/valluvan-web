@@ -78,6 +78,7 @@ export function getHeadingTranslation(heading, targetLanguage) {
       Miscelleanous: "Misc",
     },
     Tamil: {
+      Kural: "குறள்",
       manakudavar: "மணக்குடவர் விளக்கம்",
       parimelazhagar: "பரிமேலழகர் விளக்கம்",
       varadarajanar: "மு. வரதராசனர் விளக்கம்",

@@ -87,7 +87,7 @@ function SearchView({
           aria-controls="ai-suggestions-content"
           id="ai-suggestions-header"
         >
-          <Typography variant="h6">AI Suggestions</Typography>
+          <Typography variant="h6">Ask AI</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {Object.entries(defaultSearchOptions).map(([category, questions]) => (

@@ -10,6 +10,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   getAdhigaramTranslation,
+  getHeadingTranslation,
   getLanguageSpecificColumns,
 } from "../utils/TranslationUtil";
 
@@ -98,7 +99,8 @@ function AdhigaramList({
                       }}
                     >
                       <Typography variant="subtitle1">
-                        Kural {parseInt(couplet.kno)}
+                        {getHeadingTranslation("Kural", selectedLanguage)}{" "}
+                        {parseInt(couplet.kno)}
                       </Typography>
                       <Typography>{couplet[firstLineColumn] || ""}</Typography>
                       <Typography>{couplet[secondLineColumn] || ""}</Typography>

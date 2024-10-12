@@ -12,7 +12,13 @@ import SearchView from "./components/SearchView";
 import { defaultSearchOptions } from "./utils/PresetSearch";
 import { getHeadingTranslation } from "./utils/TranslationUtil";
 import logo from "./logo.svg"; // Add this line to import the logo
-import { Brightness4, Brightness7 } from "@mui/icons-material"; // Import icons
+import {
+  Brightness4,
+  Brightness7,
+  TextIncrease,
+  TextDecrease,
+  Twitter,
+} from "@mui/icons-material"; // Import Twitter icon
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -30,6 +36,7 @@ function App() {
   const [relatedCouplets, setRelatedCouplets] = useState([]);
   const [retryCount, setRetryCount] = useState(0);
   const [darkMode, setDarkMode] = useState(false);
+  const [largeFont, setLargeFont] = useState(false); // Add state for font size
 
   const languages = [
     { code: "Tamil", name: "தமிழ்" },
@@ -61,12 +68,19 @@ function App() {
         palette: {
           mode: darkMode ? "dark" : "light",
         },
+        typography: {
+          fontSize: largeFont ? 18 : 14, // Adjust font size based on state
+        },
       }),
-    [darkMode]
+    [darkMode, largeFont]
   );
 
   const toggleTheme = () => {
     setDarkMode((prevMode) => !prevMode);
+  };
+
+  const toggleFontSize = () => {
+    setLargeFont((prevSize) => !prevSize);
   };
 
   useEffect(() => {
@@ -287,8 +301,20 @@ function App() {
             <img
               src={darkMode ? "./black.svg" : logo}
               alt="Valluvan"
-              style={{ width: "40px", height: "auto" }}
+              style={{ width: "35px", height: "auto" }}
             />
+            <IconButton onClick={toggleFontSize}>
+              {largeFont ? <TextDecrease /> : <TextIncrease />}
+            </IconButton>
+            <IconButton>
+              <a
+                href="https://x.com/nsdevaraj"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Twitter alt="Author's Twitter" />
+              </a>
+            </IconButton>
             <IconButton onClick={toggleTheme}>
               {darkMode ? <Brightness7 /> : <Brightness4 />}
             </IconButton>

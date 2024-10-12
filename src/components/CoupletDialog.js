@@ -29,7 +29,10 @@ function CoupletDialog({
     return relatedCouplets.map((couplet) => (
       <Accordion key={couplet.kno}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Kural {parseInt(couplet.kno)}</Typography>
+          <Typography>
+            {getHeadingTranslation("Kural", selectedLanguage)}{" "}
+            {parseInt(couplet.kno)}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -66,7 +69,10 @@ function CoupletDialog({
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>Kural {parseInt(selectedCouplet?.kno)}</DialogTitle>
+      <DialogTitle>
+        {getHeadingTranslation("Kural", selectedLanguage)}{" "}
+        {parseInt(selectedCouplet?.kno)}
+      </DialogTitle>
 
       <div style={{ marginLeft: "auto" }}>
         <audio
@@ -106,11 +112,14 @@ function CoupletDialog({
                 : "Explanation:"}
             </Typography>
             {selectedLanguage === "Tamil" ? (
-              getLanguageSpecificColumns("Tamil").explanationColumns.map(
+              getLanguageSpecificColumns(
+                selectedLanguage
+              ).explanationColumns.map(
                 (column) =>
                   selectedCouplet.explanation[column] && (
                     <div key={column}>
-                      <Typography variant="subtitle1">
+                      <Typography variant="h6">
+                        <br />
                         {getHeadingTranslation(column, selectedLanguage)}:
                       </Typography>
                       <Typography>
