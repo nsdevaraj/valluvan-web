@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Box, Typography, Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import {
   getTitlesByLanguage,
   getLanguageSpecificColumns,
@@ -10,6 +10,7 @@ import TitleList from "./components/TitleList";
 import SearchView from "./components/SearchView";
 import { defaultSearchOptions } from "./utils/PresetSearch";
 import { getHeadingTranslation } from "./utils/TranslationUtil";
+import logo from "./logo.svg"; // Add this line to import the logo
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -262,9 +263,11 @@ function App() {
   return (
     <Container maxWidth="lg">
       <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Valluvan
-        </Typography>
+        <img
+          src={logo}
+          alt="Valluvan"
+          style={{ width: "40px", height: "auto" }}
+        />{" "}
         <SearchView
           searchTerm={searchTerm}
           selectedLanguage={selectedLanguage}
@@ -274,7 +277,6 @@ function App() {
           languages={languages}
           handleLanguageChange={handleLanguageChange}
         />
-
         <TitleList
           titles={titles}
           headings={headings}
@@ -292,7 +294,6 @@ function App() {
           setDialogOpen={setDialogOpen}
           searchTerm={searchTerm}
         />
-
         <CoupletDialog
           open={dialogOpen}
           onClose={() => setDialogOpen(false)}
