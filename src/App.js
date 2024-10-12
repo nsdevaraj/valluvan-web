@@ -12,6 +12,7 @@ import SearchView from "./components/SearchView";
 import { defaultSearchOptions } from "./utils/PresetSearch";
 import { getHeadingTranslation } from "./utils/TranslationUtil";
 import logo from "./logo.svg";
+import black from "./black.svg";
 import {
   Brightness4,
   Brightness7,
@@ -308,33 +309,35 @@ function App() {
       <CssBaseline />
       <Container maxWidth="lg">
         <Box sx={{ my: 2 }}>
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <img
-              src={darkMode ? "./black.svg" : logo}
+              src={darkMode ? black : logo}
               alt="Valluvan"
               style={{ width: "35px", height: "auto" }}
             />
-            <IconButton onClick={toggleFontSize}>
-              {largeFont ? <TextDecrease /> : <TextIncrease />}
-            </IconButton>
-            <IconButton
-              onClick={handleFavoriteClick}
-              style={{ marginLeft: "10px" }}
-            >
-              <FavoriteIcon color="error" />
-            </IconButton>
-            <IconButton>
-              <a
-                href="https://x.com/nsdevaraj"
-                target="_blank"
-                rel="noopener noreferrer"
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <IconButton onClick={toggleFontSize}>
+                {largeFont ? <TextDecrease /> : <TextIncrease />}
+              </IconButton>
+              <IconButton
+                onClick={handleFavoriteClick}
+                style={{ marginLeft: "10px" }}
               >
-                <Twitter alt="Author's Twitter" />
-              </a>
-            </IconButton>
-            <IconButton onClick={toggleTheme}>
-              {darkMode ? <Brightness7 /> : <Brightness4 />}
-            </IconButton>
+                <FavoriteIcon color="error" />
+              </IconButton>
+              <IconButton>
+                <a
+                  href="https://x.com/nsdevaraj"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Twitter alt="Author's Twitter" />
+                </a>
+              </IconButton>
+              <IconButton onClick={toggleTheme}>
+                {darkMode ? <Brightness7 /> : <Brightness4 />}
+              </IconButton>
+            </Box>
           </Box>
           <SearchView
             searchTerm={searchTerm}
