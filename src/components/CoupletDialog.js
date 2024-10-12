@@ -154,17 +154,17 @@ CoupletDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedCouplet: PropTypes.shape({
-    kno: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    kno: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     couplet: PropTypes.shape({
       firstLineColumn: PropTypes.string,
       secondLineColumn: PropTypes.string,
     }),
     explanation: PropTypes.shape({
       explanation: PropTypes.string,
-    }),
+    }).isRequired,
   }),
   selectedLanguage: PropTypes.string.isRequired,
-  relatedCouplets: PropTypes.array,
+  relatedCouplets: PropTypes.array.isRequired,
   getLanguageSpecificColumns: PropTypes.func.isRequired,
 };
 

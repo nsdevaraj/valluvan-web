@@ -230,7 +230,7 @@ function App() {
         selectedLanguage
       );
       let couplet = {
-        kno: searchTerm,
+        kno: String(searchTerm), // Ensure kno is a string
         couplet: coupletArray[0],
         explanation: explanation,
       };
@@ -249,6 +249,7 @@ function App() {
     let explanation = fetchRelatedIDs(localStorage.getItem("favorites"));
     setDialogOpen(true);
     let couplet = {
+      kno: "",
       explanation: explanation,
     };
     setSelectedCouplet(couplet);
@@ -264,7 +265,7 @@ function App() {
       selectedLanguage
     );
     let couplet = {
-      kno: relatedIds[0],
+      kno: String(relatedIds[0]), // Ensure kno is a string
       couplet: coupletArray[0],
       explanation: explanation,
       relatedIds: relatedIds,
