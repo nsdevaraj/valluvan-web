@@ -308,12 +308,12 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Box sx={{ my: 2 }}>
+        <Box sx={{ my: 1 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <img
               src={darkMode ? black : logo}
               alt="Valluvan"
-              style={{ width: "35px", height: "auto" }}
+              style={{ width: "25px", height: "auto" }}
             />
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <IconButton onClick={toggleFontSize}>
@@ -340,6 +340,7 @@ function App() {
             </Box>
           </Box>
           <SearchView
+            sx={{ mx: 1, my: 1 }}
             searchTerm={searchTerm}
             selectedLanguage={selectedLanguage}
             handleSearchChange={handleSearchChange}
