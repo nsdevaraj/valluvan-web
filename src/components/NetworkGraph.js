@@ -2,6 +2,20 @@ import React, { useEffect, useRef } from "react";
 import cytoscape from "cytoscape";
 import data from "./data.json";
 
+function influencerNodes() {
+  const influencers = [];
+  for (let i = 0; i < data.links.length; i++) {
+    const edge = data.links[i];
+    const fromNode = data.nodes.find((node) => node.data.id === edge.from);
+    const toNode = data.nodes.find((node) => node.data.id === edge.to);
+    if (fromNode && toNode) {
+      influencers.push(fromNode);
+    }
+  }
+  console.log(influencers, "influencers");
+  return influencers;
+}
+
 function NetworkGraph() {
   const networkRef = useRef(null);
   data.nodes = [];
@@ -11,7 +25,7 @@ function NetworkGraph() {
       data: { id: `${i}`, label: `Kno ${i}` },
     });
   }
-
+  influencerNodes();
   for (let i = 0; i < data.links.length; i++) {
     data.edges.push({
       data: {
@@ -32,7 +46,7 @@ function NetworkGraph() {
         {
           selector: "node",
           style: {
-            "background-color": "#666",
+            "background-color": "#660000",
             label: "data(label)",
             "font-size": "16px",
             color: "#ffffff",
