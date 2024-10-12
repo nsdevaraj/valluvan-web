@@ -18,6 +18,7 @@ function NetworkGraph({ setSearchTerm }) {
         weight: weight,
         displayLabel: weight > 20 ? `Kno ${i}` : `${i}`,
         visible: weight >= 20,
+        size: weight >= 20 ? 20 : 10,
       },
     });
   }
@@ -50,8 +51,8 @@ function NetworkGraph({ setSearchTerm }) {
             label: "data(displayLabel)",
             "font-size": "16px",
             color: "#000000",
-            width: "mapData(weight, 5, 33, 10, 50)",
-            height: "mapData(weight, 5, 33, 10, 50)",
+            width: "data(size)",
+            height: "data(size)",
           },
         },
         {
@@ -95,7 +96,6 @@ function NetworkGraph({ setSearchTerm }) {
       });
     });
 
-    // Log to check if cy is destroyed properly
     return () => {
       console.log("Destroying Cytoscape instance");
       cy.destroy();
@@ -106,7 +106,7 @@ function NetworkGraph({ setSearchTerm }) {
     <div>
       <div ref={networkRef} style={{ height: "600px", background: "black" }} />
       {selectedNodeInfo && (
-        <div style={{ color: "grey", marginTop: "10px" }}>
+        <div style={{ color: "grey", marginTop: "20px" }}>
           <h6>
             Selected Kural {selectedNodeInfo.id}, click Search to know more.
             <br />
