@@ -32,6 +32,7 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SQLBrowser from "./components/SQLBrowser";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// import NetworkGraph from "./components/NetworkGraph";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -394,6 +395,14 @@ function App() {
               <SQLBrowser />
             </AccordionDetails>
           </Accordion>
+          {/* <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">Kural Graph</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <NetworkGraph />
+            </AccordionDetails>
+          </Accordion> */}
         </Box>
       </Container>
     </ThemeProvider>

@@ -15,7 +15,6 @@ class DbManager {
     this.db = null;
     this.isAttached = false;
     this.initPromise = null;
-    this.relatedRows = [];
     this.apiKey = process.env.REACT_APP_OPENAI_API_KEY || "";
 
     this.singletonDb = { embeddings: [], relatedRows: [] };
@@ -106,12 +105,7 @@ class DbManager {
   async loadSingletonDb() {
     try {
       await this.fetchAndStoreSingletonDb();
-      for (let i = 0; i < this.singletonDb.relatedRows.length; i++) {
-        this.relatedRows[i] = {};
-        this.relatedRows[i].id = i + 1;
-        this.relatedRows[i].list = this.singletonDb.relatedRows[i];
-      }
-      console.log("SingletonDb loaded successfully", this.relatedRows);
+      console.log("SingletonDb loaded successfully");
     } catch (error) {
       console.error("Error parsing saved singletonDb:", error);
     }
