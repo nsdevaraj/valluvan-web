@@ -68,16 +68,17 @@ function CoupletDialog({
               )}
             </IconButton>
           </DialogTitle>
-
-          <div style={{ marginLeft: "auto" }}>
-            <audio
-              src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/Kural/${String(
-                coupletNumber
-              )}.mp3`}
-              controls
-              style={{ height: "30px" }}
-            />
-          </div>
+          {selectedLanguage == "Tamil" && (
+            <div style={{ marginLeft: "auto", width: "50%" }}>
+              <audio
+                src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/Kural/${String(
+                  coupletNumber
+                )}.mp3`}
+                controls
+                style={{ height: "30px" }}
+              />
+            </div>
+          )}
         </>
       )}
       <DialogContent>

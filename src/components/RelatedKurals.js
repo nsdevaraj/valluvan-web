@@ -23,6 +23,17 @@ function renderRelatedKurals(
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
+        {selectedLanguage == "Tamil" && (
+          <div style={{ marginLeft: "auto", width: "30%" }}>
+            <audio
+              src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/Kural/${String(
+                parseInt(couplet.kno)
+              )}.mp3`}
+              controls
+              style={{ height: "30px" }}
+            />
+          </div>
+        )}
         <Typography>
           {couplet[
             getLanguageSpecificColumns(selectedLanguage).firstLineColumn
