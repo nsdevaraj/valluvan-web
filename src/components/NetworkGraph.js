@@ -2,16 +2,32 @@ import React, { useEffect, useRef } from "react";
 import cytoscape from "cytoscape";
 import data from "./data.json";
 
+console.log(data.links.length, "links");
 function influencerNodes() {
-  const influencers = [];
-  for (let i = 0; i < data.links.length; i++) {
-    const edge = data.links[i];
-    const fromNode = data.nodes.find((node) => node.data.id === edge.from);
-    const toNode = data.nodes.find((node) => node.data.id === edge.to);
-    if (fromNode && toNode) {
-      influencers.push(fromNode);
+  var keyVals = [];
+  var influencers = [];
+  for (let index = 0; index < data.links.length; index++) {
+    const element = data.links[index];
+    var pairs = [];
+    pairs.push(element.from, element.to);
+    pairs.sort((a, b) => a - b);
+
+    keyVals.push({ id: pairs[0], value: pairs[1] });
+  }
+  keyVals.sort((a, b) => a.id - b.id);
+
+  for (let index = 0; index < keyVals.length; index++) {
+    if (
+      !influencers.find((influencer) => influencer.id === keyVals[index].id)
+    ) {
+      influencers.push({ id: keyVals[index].id, count: 1 });
+    } else {
+      influencers.find(
+        (influencer) => influencer.id === keyVals[index].id
+      ).count += 1;
     }
   }
+
   console.log(influencers, "influencers");
   return influencers;
 }
