@@ -42,7 +42,7 @@ function SearchView({
     <Box sx={{ mb: 2 }}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         <TextField
-          label="Search"
+          label="OpenAI Search"
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}

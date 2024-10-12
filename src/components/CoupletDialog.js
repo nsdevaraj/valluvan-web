@@ -7,12 +7,10 @@ import {
   DialogActions,
   Typography,
   Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getHeadingTranslation } from "../utils/TranslationUtil";
+import renderRelatedKurals from "./RelatedKurals";
+
 function CoupletDialog({
   open,
   onClose,
@@ -24,48 +22,6 @@ function CoupletDialog({
   if (!selectedCouplet) {
     return null;
   }
-
-  const renderRelatedKurals = (relatedCouplets) => {
-    return relatedCouplets.map((couplet) => (
-      <Accordion key={couplet.kno}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>
-            {getHeadingTranslation("Kural", selectedLanguage)}{" "}
-            {parseInt(couplet.kno)}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            {couplet[
-              getLanguageSpecificColumns(selectedLanguage).firstLineColumn
-            ] ||
-              selectedCouplet[
-                getLanguageSpecificColumns(selectedLanguage).firstLineColumn
-              ]}
-          </Typography>
-          <Typography>
-            {couplet[
-              getLanguageSpecificColumns(selectedLanguage).secondLineColumn
-            ] ||
-              selectedCouplet[
-                getLanguageSpecificColumns(selectedLanguage).secondLineColumn
-              ]}
-          </Typography>
-          <Typography variant="subtitle2" style={{ marginTop: "0.5rem" }}>
-            Explanation:
-          </Typography>
-          <Typography>
-            {couplet[
-              getLanguageSpecificColumns(selectedLanguage).explanation
-            ] ||
-              selectedCouplet[
-                getLanguageSpecificColumns(selectedLanguage).explanation
-              ]}
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-    ));
-  };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -136,7 +92,12 @@ function CoupletDialog({
             <Typography variant="h6" style={{ marginTop: "1rem" }}>
               Related Kurals:
             </Typography>
-            {renderRelatedKurals(relatedCouplets)}
+            {renderRelatedKurals(
+              relatedCouplets,
+              selectedLanguage,
+              getLanguageSpecificColumns,
+              selectedCouplet
+            )}
           </>
         )}
       </DialogContent>
