@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Dialog,
@@ -7,9 +7,12 @@ import {
   DialogActions,
   Typography,
   Button,
+  IconButton,
 } from "@mui/material";
 import { getHeadingTranslation } from "../utils/TranslationUtil";
 import renderRelatedKurals from "./RelatedKurals";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 function CoupletDialog({
   open,
@@ -19,6 +22,29 @@ function CoupletDialog({
   relatedCouplets,
   getLanguageSpecificColumns,
 }) {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (selectedCouplet) {
+      const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      setIsFavorite(favorites.includes(Number(selectedCouplet.kno)));
+    }
+  }, [selectedCouplet]);
+
+  const handleFavoriteClick = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    if (isFavorite) {
+      const updatedFavorites = favorites.filter(
+        (kno) => kno !== parseInt(selectedCouplet.kno)
+      );
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    } else {
+      favorites.push(parseInt(selectedCouplet.kno));
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+    setIsFavorite(!isFavorite);
+  };
+
   if (!selectedCouplet) {
     return null;
   }
@@ -28,6 +54,12 @@ function CoupletDialog({
       <DialogTitle>
         {getHeadingTranslation("Kural", selectedLanguage)}{" "}
         {parseInt(selectedCouplet?.kno)}
+        <IconButton
+          onClick={handleFavoriteClick}
+          style={{ marginLeft: "10px" }}
+        >
+          {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+        </IconButton>
       </DialogTitle>
 
       <div style={{ marginLeft: "auto" }}>

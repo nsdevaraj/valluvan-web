@@ -11,14 +11,15 @@ import TitleList from "./components/TitleList";
 import SearchView from "./components/SearchView";
 import { defaultSearchOptions } from "./utils/PresetSearch";
 import { getHeadingTranslation } from "./utils/TranslationUtil";
-import logo from "./logo.svg"; // Add this line to import the logo
+import logo from "./logo.svg";
 import {
   Brightness4,
   Brightness7,
   TextIncrease,
   TextDecrease,
   Twitter,
-} from "@mui/icons-material"; // Import Twitter icon
+} from "@mui/icons-material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -36,7 +37,7 @@ function App() {
   const [relatedCouplets, setRelatedCouplets] = useState([]);
   const [retryCount, setRetryCount] = useState(0);
   const [darkMode, setDarkMode] = useState(false);
-  const [largeFont, setLargeFont] = useState(false); // Add state for font size
+  const [largeFont, setLargeFont] = useState(false);
 
   const languages = [
     { code: "Tamil", name: "தமிழ்" },
@@ -244,6 +245,16 @@ function App() {
     }
   };
 
+  const handleFavoriteClick = () => {
+    let explanation = fetchRelatedIDs(localStorage.getItem("favorites"));
+    setDialogOpen(true);
+    let couplet = {
+      kno: searchTerm,
+      explanation: explanation,
+    };
+    setSelectedCouplet(couplet);
+  };
+
   const openAIResponse = async (relatedIds, selectedLanguage) => {
     console.log(relatedIds);
     const explanation = await fetchExplanation(relatedIds[0], selectedLanguage);
@@ -305,6 +316,12 @@ function App() {
             />
             <IconButton onClick={toggleFontSize}>
               {largeFont ? <TextDecrease /> : <TextIncrease />}
+            </IconButton>
+            <IconButton
+              onClick={handleFavoriteClick}
+              style={{ marginLeft: "10px" }}
+            >
+              <FavoriteIcon color="error" />
             </IconButton>
             <IconButton>
               <a
