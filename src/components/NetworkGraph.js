@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Network } from "vis-network";
+import cytoscape from "cytoscape";
 import data from "./data.json";
 
 function NetworkGraph() {
@@ -8,45 +8,54 @@ function NetworkGraph() {
   data.edges = [];
   for (let i = 0; i < 1331; i++) {
     data.nodes.push({
-      id: i,
-      label: `Kno ${i}`,
+      data: { id: `${i}`, label: `Kno ${i}` },
     });
   }
 
-  for (let i = 0; i < 1330; i++) {
+  for (let i = 0; i < data.links.length; i++) {
     data.edges.push({
-      from: i,
-      to: i + 1,
+      data: {
+        source: `${data.links[i].from}`,
+        target: `${data.links[i].to}`,
+      },
     });
   }
 
   useEffect(() => {
-    const container = networkRef.current;
-    const options = {
-      nodes: {
-        shape: "dot",
-        size: 16,
-        font: {
-          size: 16,
-          color: "#ffffff",
+    const cy = cytoscape({
+      container: networkRef.current,
+      elements: {
+        nodes: data.nodes,
+        edges: data.edges,
+      },
+      style: [
+        {
+          selector: "node",
+          style: {
+            "background-color": "#666",
+            label: "data(label)",
+            "font-size": "16px",
+            color: "#ffffff",
+            width: "16px",
+            height: "16px",
+          },
         },
-        borderWidth: 2,
-      },
-      edges: {
-        width: 2,
-      },
-      physics: {
-        enabled: true,
-      },
+        {
+          selector: "edge",
+          style: {
+            width: 2,
+            "line-color": "#ccc",
+          },
+        },
+      ],
       layout: {
-        improvedLayout: false,
+        name: "grid",
+        rows: 40,
       },
-    };
-
-    const network = new Network(container, data, options);
+    });
 
     return () => {
-      network.destroy();
+      cy.destroy();
     };
   }, []);
 
