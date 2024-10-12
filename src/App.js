@@ -1,5 +1,14 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Box, Container, IconButton, CssBaseline } from "@mui/material";
+import {
+  Box,
+  Container,
+  IconButton,
+  CssBaseline,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   getTitlesByLanguage,
@@ -21,6 +30,8 @@ import {
   Twitter,
 } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import SQLBrowser from "./components/SQLBrowser";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -374,6 +385,15 @@ function App() {
             relatedCouplets={relatedCouplets}
             getLanguageSpecificColumns={getLanguageSpecificColumns}
           />
+          <br />
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">Kural Browser</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <SQLBrowser />
+            </AccordionDetails>
+          </Accordion>
         </Box>
       </Container>
     </ThemeProvider>

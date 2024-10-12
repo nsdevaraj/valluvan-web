@@ -1,4 +1,3 @@
 #Valluvan
 
-Favorites
-Theme
+Network view of the Tirukkural database.
