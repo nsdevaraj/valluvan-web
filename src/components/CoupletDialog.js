@@ -49,34 +49,45 @@ function CoupletDialog({
     return null;
   }
 
+  const coupletNumber = parseInt(selectedCouplet?.kno);
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>
-        {getHeadingTranslation("Kural", selectedLanguage)}{" "}
-        {parseInt(selectedCouplet?.kno)}
-        <IconButton
-          onClick={handleFavoriteClick}
-          style={{ marginLeft: "10px" }}
-        >
-          {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
-        </IconButton>
-      </DialogTitle>
+      {!isNaN(coupletNumber) && (
+        <>
+          <DialogTitle>
+            {getHeadingTranslation("Kural", selectedLanguage)} {coupletNumber}
+            <IconButton
+              onClick={handleFavoriteClick}
+              style={{ marginLeft: "10px" }}
+            >
+              {isFavorite ? (
+                <FavoriteIcon color="error" />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
+            </IconButton>
+          </DialogTitle>
 
-      <div style={{ marginLeft: "auto" }}>
-        <audio
-          src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/Kural/${String(
-            selectedCouplet?.kno
-          )}.mp3`}
-          controls
-          style={{ height: "30px" }}
-        />
-      </div>
+          <div style={{ marginLeft: "auto" }}>
+            <audio
+              src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/Kural/${String(
+                coupletNumber
+              )}.mp3`}
+              controls
+              style={{ height: "30px" }}
+            />
+          </div>
+        </>
+      )}
       <DialogContent>
         {selectedCouplet && (
           <>
-            <Typography variant="h6">
-              {selectedLanguage !== "Tamil" ? "Couplet:" : "குறள்:"}
-            </Typography>
+            {!isNaN(coupletNumber) && (
+              <Typography variant="h6">
+                {selectedLanguage !== "Tamil" ? "Couplet:" : "குறள்:"}
+              </Typography>
+            )}
             <Typography>
               {selectedCouplet.couplet?.[
                 getLanguageSpecificColumns(selectedLanguage).firstLineColumn
@@ -122,7 +133,7 @@ function CoupletDialog({
               </Typography>
             )}
             <Typography variant="h6" style={{ marginTop: "1rem" }}>
-              Related Kurals:
+              {isNaN(coupletNumber) ? "Favorite Kurals:" : "Related Kurals:"}
             </Typography>
             {renderRelatedKurals(
               relatedCouplets,
