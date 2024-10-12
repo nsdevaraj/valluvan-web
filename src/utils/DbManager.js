@@ -15,10 +15,10 @@ class DbManager {
     this.db = null;
     this.isAttached = false;
     this.initPromise = null;
-
+    this.relatedRows = [];
     this.apiKey = process.env.REACT_APP_OPENAI_API_KEY || "";
 
-    this.singletonDb = [];
+    this.singletonDb = { embeddings: [], relatedRows: [] };
     setTimeout(() => this.loadSingletonDb(), 10000);
     this.initializationStatus = "not started";
   }
@@ -71,8 +71,8 @@ class DbManager {
   }
 
   async retrieveRelatedDocuments(query, topN) {
-    const ids = this.singletonDb.map((item) => item.id);
-    const embeddings = this.singletonDb.map((item) => item.values);
+    const ids = this.singletonDb.embeddings.map((item) => item.id);
+    const embeddings = this.singletonDb.embeddings.map((item) => item.values);
 
     const queryEmbedding = await this.generateEmbedding(query);
     if (!queryEmbedding) {
@@ -82,6 +82,7 @@ class DbManager {
     const similarities = embeddings.map((embedding) =>
       this.cosineSimilarity(queryEmbedding, embedding)
     );
+
     const relatedIndices = similarities
       .map((similarity, index) => ({ similarity, index }))
       .sort((a, b) => b.similarity - a.similarity)
@@ -105,6 +106,12 @@ class DbManager {
   async loadSingletonDb() {
     try {
       await this.fetchAndStoreSingletonDb();
+      for (let i = 0; i < this.singletonDb.relatedRows.length; i++) {
+        this.relatedRows[i] = {};
+        this.relatedRows[i].id = i + 1;
+        this.relatedRows[i].list = this.singletonDb.relatedRows[i];
+      }
+      console.log("SingletonDb loaded successfully", this.relatedRows);
     } catch (error) {
       console.error("Error parsing saved singletonDb:", error);
     }
@@ -112,35 +119,31 @@ class DbManager {
 
   async fetchAndStoreSingletonDb() {
     try {
-      const embeddings = await this.singletonKurals();
+      const { embeddings, relatedRows } = await this.singletonKurals();
 
       const serializableEmbeddings = embeddings.map((item) => ({
         id: parseInt(item.id),
         values: item.values.map(Number),
       }));
-      this.singletonDb = serializableEmbeddings;
+      this.singletonDb = { embeddings: serializableEmbeddings, relatedRows };
     } catch (error) {
       console.error("Error fetching and storing singletonDb:", error);
     }
   }
 
   processEmbeddingBinding(embeddingBinding) {
-    // Convert the binding to a string representation
     let hexString = String(embeddingBinding)
       .replace(/Optional\(x'/, "")
       .replace(/'?\)/, "")
-      .replace(/\s/g, ""); // Remove any spaces if present
+      .replace(/\s/g, "");
 
-    // Check if the hex string is valid
     if (hexString.length === 0) {
       console.log("Hex string is empty after cleaning");
       return null;
     }
 
-    // Ensure the hex string does not start with 'x'
     let cleanedHexString = hexString.replace(/^x/, "");
 
-    // Convert hex string to float array
     const floatArray = this.hexStringToFloatArray(cleanedHexString);
     if (floatArray === null) {
       console.log(`Failed to process embedding: ${embeddingBinding}`);
@@ -151,9 +154,7 @@ class DbManager {
 
   hexStringToFloatArray(hexString) {
     try {
-      // Ensure the hex string has an even number of characters
       if (hexString.length % 2 !== 0) {
-        // console.warn(`Odd-length hex string: ${hexString}`);
         hexString = "0" + hexString; // Prepend a '0' to make it even
       }
 
@@ -161,11 +162,7 @@ class DbManager {
         hexString.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
       );
 
-      // Ensure the byte length is a multiple of 4
       if (byteArray.length % 4 !== 0) {
-        // console.warn(
-        //   `Byte length (${byteArray.length}) is not a multiple of 4. Padding...`
-        // );
         const paddedLength = Math.ceil(byteArray.length / 4) * 4;
         const paddedArray = new Uint8Array(paddedLength);
         paddedArray.set(byteArray);
@@ -190,7 +187,7 @@ class DbManager {
     try {
       const conn = await this.db.connect();
       const query =
-        "SELECT kno, embeddings FROM vallu.tirukkural WHERE embeddings IS NOT NULL";
+        "SELECT kno, embeddings, related_rows FROM vallu.tirukkural WHERE embeddings IS NOT NULL";
       const result = await conn.query(query);
       const rows = result.toArray();
 
@@ -208,8 +205,21 @@ class DbManager {
         })
         .filter((embedding) => embedding !== null);
 
+      const allRelatedRows = rows
+        .map((row) => {
+          const id = row.kno;
+          const relatedRows = row.related_rows;
+          if (relatedRows) {
+            return relatedRows;
+          } else {
+            console.log(`Failed to process related rows for kno ${id}`);
+            return null;
+          }
+        })
+        .filter((relatedRows) => relatedRows !== null);
+
       await conn.close();
-      return allEmbeddings;
+      return { embeddings: allEmbeddings, relatedRows: allRelatedRows };
     } catch (error) {
       console.error("Error fetching related kurals:", error);
       return [];
