@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
+  FormControl,
+  InputLabel,
   Box,
   TextField,
   Button,
@@ -66,20 +68,27 @@ function SearchView({
         <IconButton onClick={handleSearchSubmit} color="primary">
           <SearchIcon />
         </IconButton>
-        <Select
-          labelId="language-select-label"
-          id="language-select"
-          value={selectedLanguage}
-          label="Language"
-          onChange={handleLanguageChange}
-          sx={{ ml: 2, minWidth: 120 }}
-        >
-          {languages.map((lang) => (
-            <MenuItem key={lang.code} value={lang.code}>
-              {lang.name}
-            </MenuItem>
-          ))}
-        </Select>
+
+        <FormControl sx={{ ml: 2, minWidth: 100 }}>
+          <InputLabel id="language-select-label" sx={{ ml: 2 }}>
+            Lang
+          </InputLabel>
+          <Select
+            labelId="language-select-label"
+            id="language-select"
+            variant="outlined"
+            value={selectedLanguage}
+            label="Lang"
+            onChange={handleLanguageChange}
+            sx={{ ml: 2, flexGrow: 1, minWidth: 90 }}
+          >
+            {languages.map((lang) => (
+              <MenuItem key={lang.code} value={lang.code}>
+                {lang.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
       <Accordion expanded={expanded} onChange={handleAccordionChange}>
         <AccordionSummary
