@@ -24,22 +24,22 @@ function CoupletDialog({
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
+  const coupletNumber = parseInt(selectedCouplet?.kno);
+
   useEffect(() => {
-    if (selectedCouplet) {
+    if (coupletNumber) {
       const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-      setIsFavorite(favorites.includes(Number(selectedCouplet.kno)));
+      setIsFavorite(favorites.includes(Number(coupletNumber)));
     }
-  }, [selectedCouplet]);
+  }, [coupletNumber]);
 
   const handleFavoriteClick = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     if (isFavorite) {
-      const updatedFavorites = favorites.filter(
-        (kno) => kno !== parseInt(selectedCouplet.kno)
-      );
+      const updatedFavorites = favorites.filter((kno) => kno !== coupletNumber);
       localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     } else {
-      favorites.push(parseInt(selectedCouplet.kno));
+      favorites.push(coupletNumber);
       localStorage.setItem("favorites", JSON.stringify(favorites));
     }
     setIsFavorite(!isFavorite);
@@ -48,8 +48,6 @@ function CoupletDialog({
   if (!selectedCouplet) {
     return null;
   }
-
-  const coupletNumber = parseInt(selectedCouplet?.kno);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -130,7 +128,7 @@ function CoupletDialog({
               )
             ) : (
               <Typography>
-                {selectedCouplet.explanation.explanation || "N/A"}
+                {selectedCouplet.explanation.explanation || ""}
               </Typography>
             )}
             <Typography variant="h6" style={{ marginTop: "1rem" }}>

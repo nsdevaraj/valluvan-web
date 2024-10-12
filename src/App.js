@@ -249,7 +249,6 @@ function App() {
     let explanation = fetchRelatedIDs(localStorage.getItem("favorites"));
     setDialogOpen(true);
     let couplet = {
-      kno: searchTerm,
       explanation: explanation,
     };
     setSelectedCouplet(couplet);

@@ -24,7 +24,7 @@ function renderRelatedKurals(
       </AccordionSummary>
       <AccordionDetails>
         {selectedLanguage == "Tamil" && (
-          <div style={{ marginLeft: "auto", width: "30%" }}>
+          <div style={{ width: "30%" }}>
             <audio
               src={`https://github.com/nsdevaraj/valluvan-assets/raw/refs/heads/asset-bucket/valluvan/Kural/${String(
                 parseInt(couplet.kno)
