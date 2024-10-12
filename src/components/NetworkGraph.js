@@ -1,34 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import cytoscape from "cytoscape";
 import data from "./data.json";
-
-console.log(data.links.length, "links");
+let influencers = [];
 function influencerNodes() {
-  var keyVals = [];
-  var influencers = [];
-  for (let index = 0; index < data.links.length; index++) {
-    const element = data.links[index];
-    var pairs = [];
-    pairs.push(element.from, element.to);
-    pairs.sort((a, b) => a - b);
-
-    keyVals.push({ id: pairs[0], value: pairs[1] });
-  }
-  keyVals.sort((a, b) => a.id - b.id);
-
-  for (let index = 0; index < keyVals.length; index++) {
-    if (
-      !influencers.find((influencer) => influencer.id === keyVals[index].id)
-    ) {
-      influencers.push({ id: keyVals[index].id, count: 1 });
-    } else {
-      influencers.find(
-        (influencer) => influencer.id === keyVals[index].id
-      ).count += 1;
+  for (let index = 0; index < data.counts.length; index++) {
+    if (data.counts[index].count > 10) {
+      influencers.push({ id: data.counts[index].id });
     }
   }
-
-  console.log(influencers, "influencers");
   return influencers;
 }
 
@@ -41,7 +20,7 @@ function NetworkGraph() {
       data: { id: `${i}`, label: `Kno ${i}` },
     });
   }
-  influencerNodes();
+  influencers = influencerNodes();
   for (let i = 0; i < data.links.length; i++) {
     data.edges.push({
       data: {
@@ -62,7 +41,8 @@ function NetworkGraph() {
         {
           selector: "node",
           style: {
-            "background-color": "#660000",
+            "background-color":
+              "data(id) in influencers ? '#FF0000' : '#660000'",
             label: "data(label)",
             "font-size": "16px",
             color: "#ffffff",
