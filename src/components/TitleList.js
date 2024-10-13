@@ -13,7 +13,23 @@ import {
   getHeadingTranslation,
 } from "../utils/TranslationUtil";
 import AdhigaramList from "./AdhigaramList";
-import { AttachMoney, Home, Favorite } from "@mui/icons-material";
+import {
+  AttachMoney,
+  Home,
+  WcRounded,
+  Book,
+  Gavel,
+  Spa,
+  BakeryDining,
+  CardTravel,
+  Castle,
+  AssuredWorkload,
+  LocalFireDepartment,
+  LocationCity,
+  Celebration,
+  Favorite,
+  Chalet,
+} from "@mui/icons-material";
 
 function TitleList({
   titles,
@@ -40,9 +56,9 @@ function TitleList({
           onChange={handleTitleChange(title)}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            {index === 0 && <Home />}
+            {index === 0 && <Gavel />}
             {index === 1 && <AttachMoney />}
-            {index === 2 && <Favorite />}
+            {index === 2 && <WcRounded />}
             <Typography>{title}</Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -64,6 +80,22 @@ function TitleList({
                       )}
                     >
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        {index === 0 && headingIndex === 0 && <Book />}
+                        {index === 0 && headingIndex === 1 && <Home />}
+                        {index === 0 && headingIndex === 2 && <Spa />}
+                        {index === 1 && headingIndex === 0 && (
+                          <AssuredWorkload />
+                        )}
+                        {index === 1 && headingIndex === 1 && <CardTravel />}
+                        {index === 1 && headingIndex === 2 && <Castle />}
+                        {index === 1 && headingIndex === 3 && <BakeryDining />}
+                        {index === 1 && headingIndex === 4 && (
+                          <LocalFireDepartment />
+                        )}
+                        {index === 1 && headingIndex === 5 && <Celebration />}
+                        {index === 1 && headingIndex === 6 && <LocationCity />}
+                        {index === 2 && headingIndex === 0 && <Favorite />}
+                        {index === 2 && headingIndex === 1 && <Chalet />}
                         <Typography>
                           {getHeadingTranslation(heading, selectedLanguage)}
                         </Typography>
