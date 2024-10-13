@@ -13,6 +13,7 @@ import {
   getHeadingTranslation,
 } from "../utils/TranslationUtil";
 import AdhigaramList from "./AdhigaramList";
+import { AttachMoney, Home, Favorite } from "@mui/icons-material";
 
 function TitleList({
   titles,
@@ -39,6 +40,9 @@ function TitleList({
           onChange={handleTitleChange(title)}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            {index === 0 && <Home />}
+            {index === 1 && <AttachMoney />}
+            {index === 2 && <Favorite />}
             <Typography>{title}</Typography>
           </AccordionSummary>
           <AccordionDetails>
