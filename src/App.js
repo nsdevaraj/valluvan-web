@@ -84,7 +84,7 @@ function App() {
           mode: darkMode ? "dark" : "light",
         },
         typography: {
-          fontSize: largeFont ? 18 : 14, // Adjust font size based on state
+          fontSize: largeFont ? 18 : 14,
         },
       }),
     [darkMode, largeFont]
@@ -235,7 +235,7 @@ function App() {
   };
 
   const handleSearchSubmit = async () => {
-    if (!isNaN(searchTerm) && searchTerm.trim() !== "") {
+    if (!isNaN(searchTerm)) {
       const explanation = await fetchExplanation(searchTerm, selectedLanguage);
       setDialogOpen(true);
 
@@ -402,7 +402,10 @@ function App() {
             </AccordionSummary>
             <AccordionDetails>
               <Suspense fallback={<div>Loading Network Graph...</div>}>
-                <NetworkGraph setSearchTerm={setSearchTerm} />
+                <NetworkGraph
+                  setSearchTerm={setSearchTerm}
+                  onSearchSubmit={handleSearchSubmit}
+                />
               </Suspense>
             </AccordionDetails>
           </Accordion>

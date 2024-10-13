@@ -3,35 +3,48 @@ import PropTypes from "prop-types"; // Import PropTypes
 import cytoscape from "cytoscape";
 import data from "./data.json";
 import debounce from "lodash.debounce";
+import IconButton from "@mui/material/IconButton";
+import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
+import Button from "@mui/material/Button";
+import SearchIcon from "@mui/icons-material/Search";
 
-function NetworkGraph({ setSearchTerm }) {
+function NetworkGraph({ setSearchTerm, onSearchSubmit }) {
   const networkRef = useRef(null);
-  const [selectedNodeInfo, setSelectedNodeInfo] = useState(null);
-
+  const [selectedNodeInfo, setSelectedNodeInfo] = useState(data.maxConnect);
+  var thresold = 9;
   const elements = useMemo(() => {
     const nodes = [];
     const edges = [];
     for (let i = 1; i < 1331; i++) {
       const weight = data.counts[i - 1].count;
-      nodes.push({
-        data: {
-          id: `${i}`,
-          weight: weight,
-          visible: weight >= 22,
-          size: weight >= 22 ? 30 : 10,
-        },
-      });
+      if (weight > thresold) {
+        nodes.push({
+          data: {
+            id: `${i}`,
+            weight: weight,
+            visible: weight >= 14,
+            size: weight >= 14 ? 30 : 10,
+          },
+        });
+      }
     }
     for (let i = 0; i < data.links.length; i++) {
-      edges.push({
-        data: {
-          source: `${data.links[i].from}`,
-          target: `${data.links[i].to}`,
-        },
-      });
+      const fromId = data.links[i].from;
+      const toId = data.links[i].to;
+      if (
+        nodes.some((node) => node.data.id === `${fromId}`) &&
+        nodes.some((node) => node.data.id === `${toId}`)
+      ) {
+        edges.push({
+          data: {
+            source: `${fromId}`,
+            target: `${toId}`,
+          },
+        });
+      }
     }
     return { nodes, edges };
-  }, []);
+  }, [thresold]);
 
   useEffect(() => {
     if (!networkRef.current) {
@@ -90,10 +103,12 @@ function NetworkGraph({ setSearchTerm }) {
         if (setSearchTerm) {
           setSearchTerm(node.data("id"));
         }
-        setSelectedNodeInfo({
-          id: node.data("id"),
-          weight: node.data("weight"),
-        });
+        setSelectedNodeInfo([
+          {
+            id: node.data("id"),
+            weight: node.data("weight"),
+          },
+        ]);
       }, 300);
 
       cy.on("tap", "node", handleNodeTap);
@@ -111,32 +126,67 @@ function NetworkGraph({ setSearchTerm }) {
     }, 2000);
 
     return () => clearTimeout(timeoutId);
-  }, [elements, setSearchTerm]);
+  }, [elements, setSearchTerm, onSearchSubmit]);
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <div ref={networkRef} style={{ height: "600px", background: "black" }} />
-      {selectedNodeInfo && (
+      <IconButton
+        onClick={() => window.resetLayout()}
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          zIndex: 10,
+          color: "white",
+        }}
+        color="primary"
+      >
+        <ZoomOutMapIcon />
+      </IconButton>
+      {selectedNodeInfo && selectedNodeInfo.length < 2 && (
         <div style={{ color: "grey", marginTop: "10px" }}>
-          <h4>
-            Selected Kural {selectedNodeInfo.id}, click Search to know more.
-            <br />
-            Connected with other {selectedNodeInfo.weight} kurals
-          </h4>
+          Search Kural :{" "}
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<SearchIcon />}
+            onClick={onSearchSubmit}
+          >
+            {selectedNodeInfo[0].id}
+          </Button>{" "}
+          It is connected with {selectedNodeInfo[0].weight} other kurals.
         </div>
       )}
-      <button
-        onClick={() => window.resetLayout()}
-        style={{ marginTop: "10px" }}
-      >
-        Reset Zoom
-      </button>
+      {selectedNodeInfo && selectedNodeInfo.length > 1 && (
+        <div style={{ color: "grey", marginTop: "10px" }}>
+          Most connected kurals (&gt; 25 times) :{" "}
+          <div style={{ color: "grey", marginTop: "10px" }}>
+            {selectedNodeInfo.map((kural) => (
+              <Button
+                key={kural.id}
+                variant="contained"
+                color="primary"
+                startIcon={<SearchIcon />}
+                onClick={() => {
+                  setSearchTerm(kural.id);
+                  onSearchSubmit();
+                }}
+                style={{ margin: "5px" }}
+              >
+                {kural.id}
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 NetworkGraph.propTypes = {
   setSearchTerm: PropTypes.func.isRequired,
+  onSearchSubmit: PropTypes.func.isRequired,
 };
 
 export default NetworkGraph;
