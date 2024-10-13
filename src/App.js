@@ -347,11 +347,15 @@ function App() {
       <Container maxWidth="lg">
         <Box sx={{ my: 1 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <img
+            <a
+                  href="https://apps.apple.com/app/valluvan/id6689495638"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                ><img
               src={darkMode ? black : logo}
               alt="Valluvan"
               style={{ width: "25px", height: "auto" }}
-            />
+            /></a>
             <Box
               sx={{
                 display: "flex",
