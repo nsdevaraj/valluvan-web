@@ -15,9 +15,10 @@ class DbManager {
     this.db = null;
     this.isAttached = false;
     this.initPromise = null;
+
     this.apiKey = process.env.REACT_APP_OPENAI_API_KEY || "";
 
-    this.singletonDb = { embeddings: [], relatedRows: [] };
+    this.singletonDb = [];
     setTimeout(() => this.loadSingletonDb(), 10000);
     this.initializationStatus = "not started";
   }
@@ -70,8 +71,8 @@ class DbManager {
   }
 
   async retrieveRelatedDocuments(query, topN) {
-    const ids = this.singletonDb.embeddings.map((item) => item.id);
-    const embeddings = this.singletonDb.embeddings.map((item) => item.values);
+    const ids = this.singletonDb.map((item) => item.id);
+    const embeddings = this.singletonDb.map((item) => item.values);
 
     const queryEmbedding = await this.generateEmbedding(query);
     if (!queryEmbedding) {
@@ -81,7 +82,6 @@ class DbManager {
     const similarities = embeddings.map((embedding) =>
       this.cosineSimilarity(queryEmbedding, embedding)
     );
-
     const relatedIndices = similarities
       .map((similarity, index) => ({ similarity, index }))
       .sort((a, b) => b.similarity - a.similarity)
@@ -105,7 +105,6 @@ class DbManager {
   async loadSingletonDb() {
     try {
       await this.fetchAndStoreSingletonDb();
-      console.log("SingletonDb loaded successfully");
     } catch (error) {
       console.error("Error parsing saved singletonDb:", error);
     }
@@ -113,19 +112,20 @@ class DbManager {
 
   async fetchAndStoreSingletonDb() {
     try {
-      const { embeddings, relatedRows } = await this.singletonKurals();
+      const embeddings = await this.singletonKurals();
 
       const serializableEmbeddings = embeddings.map((item) => ({
         id: parseInt(item.id),
         values: item.values.map(Number),
       }));
-      this.singletonDb = { embeddings: serializableEmbeddings, relatedRows };
+      this.singletonDb = serializableEmbeddings;
     } catch (error) {
       console.error("Error fetching and storing singletonDb:", error);
     }
   }
 
   processEmbeddingBinding(embeddingBinding) {
+    // Convert the binding to a string representation
     let hexString = String(embeddingBinding)
       .replace(/Optional\(x'/, "")
       .replace(/'?\)/, "")
@@ -149,7 +149,7 @@ class DbManager {
   hexStringToFloatArray(hexString) {
     try {
       if (hexString.length % 2 !== 0) {
-        hexString = "0" + hexString; // Prepend a '0' to make it even
+        hexString = "0" + hexString;
       }
 
       let byteArray = new Uint8Array(
@@ -181,7 +181,7 @@ class DbManager {
     try {
       const conn = await this.db.connect();
       const query =
-        "SELECT kno, embeddings FROM vallu.tirukkural WHERE embeddings IS NOT NULL"; // related_rows
+        "SELECT kno, embeddings FROM vallu.tirukkural WHERE embeddings IS NOT NULL";
       const result = await conn.query(query);
       const rows = result.toArray();
 
@@ -199,21 +199,8 @@ class DbManager {
         })
         .filter((embedding) => embedding !== null);
 
-      // const allRelatedRows = rows
-      //   .map((row) => {
-      //     const id = row.kno;
-      //     const relatedRows = row.related_rows;
-      //     if (relatedRows) {
-      //       return relatedRows;
-      //     } else {
-      //       console.log(`Failed to process related rows for kno ${id}`);
-      //       return null;
-      //     }
-      //   })
-      //   .filter((relatedRows) => relatedRows !== null);
-
       await conn.close();
-      return { embeddings: allEmbeddings, relatedRows: [] };
+      return allEmbeddings;
     } catch (error) {
       console.error("Error fetching related kurals:", error);
       return [];
@@ -446,28 +433,26 @@ class DbManager {
           FROM vallu.tirukkural
           WHERE kno = ${kno}
         `;
+        result = await conn.query(query);
+        await conn.close();
+        return {
+          ...result.toArray()[0],
+          relatedRows: result.toArray()[0].related_rows,
+        };
       } else {
         query = `
           SELECT explanation, related_rows
           FROM vallu.tirukkural
           WHERE kno = ${kno}
         `;
+        result = await conn.query(query);
+        await conn.close();
+        const { explanation, related_rows } = result.toArray()[0];
+        return {
+          explanation,
+          relatedRows: related_rows,
+        };
       }
-
-      console.log("Executing query:", query); // Log the query for debugging
-
-      result = await conn.query(query);
-      await conn.close();
-
-      if (result.toArray().length === 0) {
-        throw new Error("No explanation found");
-      }
-
-      const { explanation, related_rows } = result.toArray()[0];
-      return {
-        explanation,
-        relatedRows: related_rows,
-      };
     } catch (error) {
       console.error("Error fetching explanation:", error);
       throw new Error("Failed to fetch explanation");
