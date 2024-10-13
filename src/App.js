@@ -275,15 +275,15 @@ function App() {
 
   const openAIResponse = async (relatedIds, selectedLanguage) => {
     console.log(relatedIds);
-    const explanation = await fetchExplanation(relatedIds[4], selectedLanguage);
+    const explanation = await fetchExplanation(relatedIds[1], selectedLanguage);
     setDialogOpen(true);
 
     const coupletArray = await dbManagerInstance.fetchCouplet(
-      relatedIds[0],
+      relatedIds[1],
       selectedLanguage
     );
     let couplet = {
-      kno: String(relatedIds[0]),
+      kno: String(relatedIds[1]),
       couplet: coupletArray[0],
       explanation: explanation,
       relatedIds: relatedIds,
