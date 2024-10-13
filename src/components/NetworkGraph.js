@@ -7,11 +7,13 @@ import IconButton from "@mui/material/IconButton";
 import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
+import Slider from "@mui/material/Slider"; // Import Slider
 
 function NetworkGraph({ setSearchTerm, onSearchSubmit }) {
   const networkRef = useRef(null);
   const [selectedNodeInfo, setSelectedNodeInfo] = useState(data.maxConnect);
-  var thresold = 9;
+  const [thresold, setThresold] = useState(9); // State for thresold
+
   const elements = useMemo(() => {
     const nodes = [];
     const edges = [];
@@ -131,6 +133,25 @@ function NetworkGraph({ setSearchTerm, onSearchSubmit }) {
   return (
     <div style={{ position: "relative" }}>
       <div ref={networkRef} style={{ height: "600px", background: "black" }} />
+      <div
+        style={{
+          position: "absolute",
+          top: "15px",
+          right: "70px",
+          zIndex: 10,
+          color: "white",
+        }}
+      >
+        <Slider
+          value={thresold}
+          onChange={(e, newValue) => setThresold(newValue)}
+          min={5}
+          max={20}
+          valueLabelDisplay="auto"
+          valueLabelFormat={(value) => `Connections: ${value}`}
+          style={{ width: "40px" }}
+        />
+      </div>
       <IconButton
         onClick={() => window.resetLayout()}
         style={{
