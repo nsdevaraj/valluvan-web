@@ -87,8 +87,9 @@ class DbManager {
       .sort((a, b) => b.similarity - a.similarity)
       .slice(0, topN)
       .map((item) => item.index);
-
-    return relatedIndices.map((index) => ids[index]);
+    let relatedIds = relatedIndices.map((index) => ids[index]);
+    console.log(relatedIds, "relatedIds");
+    return relatedIds;
   }
 
   cosineSimilarity(v1, v2) {
@@ -119,6 +120,7 @@ class DbManager {
         values: item.values.map(Number),
       }));
       this.singletonDb = serializableEmbeddings;
+      console.log("Singleton DB loaded successfully");
     } catch (error) {
       console.error("Error fetching and storing singletonDb:", error);
     }

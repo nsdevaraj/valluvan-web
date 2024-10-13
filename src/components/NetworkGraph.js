@@ -12,7 +12,7 @@ import Slider from "@mui/material/Slider"; // Import Slider
 function NetworkGraph({ setSearchTerm, onSearchSubmit }) {
   const networkRef = useRef(null);
   const [selectedNodeInfo, setSelectedNodeInfo] = useState(data.maxConnect);
-  const [thresold, setThresold] = useState(9); // State for thresold
+  const [thresold, setThresold] = useState(9);
 
   const elements = useMemo(() => {
     const nodes = [];

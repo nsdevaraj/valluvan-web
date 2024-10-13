@@ -241,7 +241,6 @@ function App() {
     if (!isNaN(searchTerm) && searchTerm.trim() !== "") {
       const explanation = await fetchExplanation(searchTerm, selectedLanguage);
       setDialogOpen(true);
-
       const coupletArray = await dbManagerInstance.fetchCouplet(
         searchTerm,
         selectedLanguage
@@ -253,7 +252,8 @@ function App() {
       };
       setSelectedCouplet(couplet);
     } else if (searchTerm.trim() !== "") {
-      let relatedIds = await dbManagerInstance.searchSentences(
+      var relatedIds = [135];
+      relatedIds = await dbManagerInstance.searchSentences(
         searchTerm,
         selectedLanguage,
         5
@@ -282,7 +282,7 @@ function App() {
       selectedLanguage
     );
     let couplet = {
-      kno: String(relatedIds[0]), // Ensure kno is a string
+      kno: String(relatedIds[0]),
       couplet: coupletArray[0],
       explanation: explanation,
       relatedIds: relatedIds,
@@ -315,6 +315,11 @@ function App() {
           flexDirection: "column",
         }}
       >
+        <img
+          src={logo}
+          alt="Valluvan"
+          style={{ width: "25px", height: "auto" }}
+        />
         <CircularProgress />
         <Typography variant="body1" sx={{ mt: 2 }}>
           Loading Vallluvan...
