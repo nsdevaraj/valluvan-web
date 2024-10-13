@@ -53,7 +53,7 @@ function App() {
   const [selectedCouplet, setSelectedCouplet] = useState(null);
   const [relatedCouplets, setRelatedCouplets] = useState([]);
   const [retryCount, setRetryCount] = useState(0);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [largeFont, setLargeFont] = useState(false);
 
   const languages = [
@@ -348,14 +348,16 @@ function App() {
         <Box sx={{ my: 1 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <a
-                  href="https://apps.apple.com/app/valluvan/id6689495638"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                ><img
-              src={darkMode ? black : logo}
-              alt="Valluvan"
-              style={{ width: "25px", height: "auto" }}
-            /></a>
+              href="https://apps.apple.com/app/valluvan/id6689495638"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={darkMode ? black : logo}
+                alt="Valluvan"
+                style={{ width: "25px", height: "auto" }}
+              />
+            </a>
             <Box
               sx={{
                 display: "flex",
