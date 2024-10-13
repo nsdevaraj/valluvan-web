@@ -49,7 +49,11 @@ function SearchView({
           value={searchTerm}
           onChange={handleSearchChange}
           sx={{ mr: 1, flexGrow: 1 }}
-          onKeyPress={handleSearchSubmit}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleSearchSubmit();
+            }
+          }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
