@@ -238,7 +238,7 @@ function App() {
   };
 
   const handleSearchSubmit = async () => {
-    if (!isNaN(searchTerm)) {
+    if (!isNaN(searchTerm) && searchTerm.trim() !== "") {
       const explanation = await fetchExplanation(searchTerm, selectedLanguage);
       setDialogOpen(true);
 
