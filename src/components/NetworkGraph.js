@@ -190,8 +190,7 @@ function NetworkGraph({ setSearchTerm, onSearchSubmit }) {
                 color="primary"
                 startIcon={<SearchIcon />}
                 onClick={() => {
-                  setSearchTerm(kural.id);
-                  onSearchSubmit();
+                  setSearchTerm(String(kural.id));
                 }}
                 style={{ margin: "5px" }}
               >

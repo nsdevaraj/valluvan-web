@@ -9,6 +9,7 @@ import {
   AccordionDetails,
   Typography,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
@@ -62,7 +63,7 @@ function App() {
     { code: "hindi", name: "हिन्दी" },
     { code: "kannad", name: "ಕನ್ನಡ" },
     { code: "french", name: "Français" },
-    { code: "arabic", name: "العربية" },
+    { code: "arabic", name: "اعربية" },
     { code: "chinese", name: "中文" },
     { code: "german", name: "Deutsch" },
     { code: "korean", name: "한국어" },
@@ -304,7 +305,22 @@ function App() {
   };
 
   if (loading) {
-    return <p>Loading Vallluvan...</p>;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          flexDirection: "column",
+        }}
+      >
+        <CircularProgress />
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Loading Vallluvan...
+        </Typography>
+      </Box>
+    );
   }
 
   if (error) {

@@ -446,26 +446,28 @@ class DbManager {
           FROM vallu.tirukkural
           WHERE kno = ${kno}
         `;
-        result = await conn.query(query);
-        await conn.close();
-        return {
-          ...result.toArray()[0],
-          relatedRows: result.toArray()[0].related_rows,
-        };
       } else {
         query = `
           SELECT explanation, related_rows
           FROM vallu.tirukkural
           WHERE kno = ${kno}
         `;
-        result = await conn.query(query);
-        await conn.close();
-        const { explanation, related_rows } = result.toArray()[0];
-        return {
-          explanation,
-          relatedRows: related_rows,
-        };
       }
+
+      console.log("Executing query:", query); // Log the query for debugging
+
+      result = await conn.query(query);
+      await conn.close();
+
+      if (result.toArray().length === 0) {
+        throw new Error("No explanation found");
+      }
+
+      const { explanation, related_rows } = result.toArray()[0];
+      return {
+        explanation,
+        relatedRows: related_rows,
+      };
     } catch (error) {
       console.error("Error fetching explanation:", error);
       throw new Error("Failed to fetch explanation");
