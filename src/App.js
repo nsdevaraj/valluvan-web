@@ -69,7 +69,7 @@ function App() {
     { code: "malay", name: "Bahasa Melayu" },
     { code: "malayalam", name: "മലയാളം" },
     { code: "polish", name: "Polski" },
-    { code: "russian", name: "Русс��ий" },
+    { code: "russian", name: "Русский" },
     { code: "singalam", name: "සිංහල" },
     { code: "swedish", name: "Svenska" },
   ];
