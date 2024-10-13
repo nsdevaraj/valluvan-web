@@ -8,6 +8,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  Divider,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
@@ -28,6 +29,7 @@ import {
   TextIncrease,
   TextDecrease,
   Twitter,
+  GitHub,
 } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SQLBrowser from "./components/SQLBrowser";
@@ -67,7 +69,7 @@ function App() {
     { code: "malay", name: "Bahasa Melayu" },
     { code: "malayalam", name: "മലയാളം" },
     { code: "polish", name: "Polski" },
-    { code: "russian", name: "Русский" },
+    { code: "russian", name: "Русс��ий" },
     { code: "singalam", name: "සිංහල" },
     { code: "swedish", name: "Svenska" },
   ];
@@ -328,16 +330,13 @@ function App() {
               alt="Valluvan"
               style={{ width: "25px", height: "auto" }}
             />
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <IconButton onClick={toggleFontSize}>
-                {largeFont ? <TextDecrease /> : <TextIncrease />}
-              </IconButton>
-              <IconButton
-                onClick={handleFavoriteClick}
-                style={{ marginLeft: "10px" }}
-              >
-                <FavoriteIcon color="error" />
-              </IconButton>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
               <IconButton>
                 <a
                   href="https://x.com/nsdevaraj"
@@ -346,6 +345,25 @@ function App() {
                 >
                   <Twitter alt="Author's Twitter" />
                 </a>
+              </IconButton>
+              <IconButton>
+                <a
+                  href="https://github.com/nsdevaraj/Valluvan-web"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <GitHub alt="Source Code" />
+                </a>
+              </IconButton>
+              <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />{" "}
+              <IconButton onClick={toggleFontSize}>
+                {largeFont ? <TextDecrease /> : <TextIncrease />}
+              </IconButton>
+              <IconButton
+                onClick={handleFavoriteClick}
+                style={{ marginLeft: "10px" }}
+              >
+                <FavoriteIcon color="error" />
               </IconButton>
               <IconButton onClick={toggleTheme}>
                 {darkMode ? <Brightness7 /> : <Brightness4 />}
