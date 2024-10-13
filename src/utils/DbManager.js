@@ -78,7 +78,6 @@ class DbManager {
     if (!queryEmbedding) {
       return [];
     }
-
     const similarities = embeddings.map((embedding) =>
       this.cosineSimilarity(queryEmbedding, embedding)
     );
@@ -88,7 +87,7 @@ class DbManager {
       .slice(0, topN)
       .map((item) => item.index);
     let relatedIds = relatedIndices.map((index) => ids[index]);
-    console.log(relatedIds, "relatedIds");
+    console.log(relatedIds, "ai relatedIds");
     return relatedIds;
   }
 
@@ -97,10 +96,6 @@ class DbManager {
     const magnitude1 = Math.sqrt(v1.reduce((sum, v1i) => sum + v1i * v1i, 0));
     const magnitude2 = Math.sqrt(v2.reduce((sum, v2i) => sum + v2i * v2i, 0));
     return dotProduct / (magnitude1 * magnitude2);
-  }
-
-  async searchSentences(query, language, topN) {
-    return await this.retrieveRelatedDocuments(query, topN);
   }
 
   async loadSingletonDb() {

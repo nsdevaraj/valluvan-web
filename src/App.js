@@ -252,12 +252,13 @@ function App() {
       };
       setSelectedCouplet(couplet);
     } else if (searchTerm.trim() !== "") {
-      var relatedIds = [135];
-      relatedIds = await dbManagerInstance.searchSentences(
-        searchTerm,
-        selectedLanguage,
-        5
-      );
+      var relatedIds = [1006, 916, 626, 135, 554];
+      if (dbManagerInstance.singletonDb.length > 0) {
+        relatedIds = await dbManagerInstance.retrieveRelatedDocuments(
+          searchTerm,
+          5
+        );
+      }
       openAIResponse(relatedIds, selectedLanguage);
     }
   };
@@ -274,7 +275,7 @@ function App() {
 
   const openAIResponse = async (relatedIds, selectedLanguage) => {
     console.log(relatedIds);
-    const explanation = await fetchExplanation(relatedIds[0], selectedLanguage);
+    const explanation = await fetchExplanation(relatedIds[4], selectedLanguage);
     setDialogOpen(true);
 
     const coupletArray = await dbManagerInstance.fetchCouplet(
