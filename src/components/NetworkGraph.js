@@ -83,7 +83,7 @@ function NetworkGraph({ setSearchTerm, onSearchSubmit }) {
               visibility: "data(visible) ? 'visible' : 'hidden'",
               label: "data(id)",
               "font-size": "16px",
-              color: "#000000",
+              color: "#ffffff",
               width: "data(size)",
               height: "data(size)",
             },
