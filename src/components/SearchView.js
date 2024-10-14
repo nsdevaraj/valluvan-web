@@ -20,7 +20,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { defaultSearchOptions } from "../utils/PresetSearch";
 import { getHeadingTranslation } from "../utils/TranslationUtil";
-
+import { AutoAwesome } from "@mui/icons-material";
 function SearchView({
   searchTerm,
   selectedLanguage,
@@ -101,6 +101,7 @@ function SearchView({
           aria-controls="ai-suggestions-content"
           id="ai-suggestions-header"
         >
+          <AutoAwesome sx={{ mr: 1 }} />
           <Typography variant="h6">Ask AI</Typography>
         </AccordionSummary>
         <AccordionDetails>

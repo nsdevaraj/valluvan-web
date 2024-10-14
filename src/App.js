@@ -35,7 +35,8 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SQLBrowser from "./components/SQLBrowser";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import AutoGraph from "@mui/icons-material/AutoGraph";
+import TableRows from "@mui/icons-material/TableRows";
 const NetworkGraph = lazy(() => import("./components/NetworkGraph"));
 
 function App() {
@@ -436,6 +437,7 @@ function App() {
           <br />
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <TableRows sx={{ mr: 1 }} />
               <Typography variant="h6">Kural Browser</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -444,6 +446,7 @@ function App() {
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <AutoGraph sx={{ mr: 1 }} />
               <Typography variant="h6">Kural Graph</Typography>
             </AccordionSummary>
             <AccordionDetails>

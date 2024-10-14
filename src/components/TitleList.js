@@ -56,9 +56,9 @@ function TitleList({
           onChange={handleTitleChange(title)}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            {index === 0 && <Gavel />}
-            {index === 1 && <AttachMoney />}
-            {index === 2 && <WcRounded />}
+            {index === 0 && <Gavel sx={{ mr: 1 }} />}
+            {index === 1 && <AttachMoney sx={{ mr: 1 }} />}
+            {index === 2 && <WcRounded sx={{ mr: 1 }} />}
             <Typography>{title}</Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -80,22 +80,22 @@ function TitleList({
                       )}
                     >
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        {index === 0 && headingIndex === 0 && <Book />}
-                        {index === 0 && headingIndex === 1 && <Home />}
-                        {index === 0 && headingIndex === 2 && <Spa />}
+                        {index === 0 && headingIndex === 0 && <Book sx={{ mr: 1 }} />}
+                        {index === 0 && headingIndex === 1 && <Home sx={{ mr: 1 }} />}
+                        {index === 0 && headingIndex === 2 && <Spa sx={{ mr: 1 }} />}
                         {index === 1 && headingIndex === 0 && (
-                          <AssuredWorkload />
+                          <AssuredWorkload sx={{ mr: 1 }} />
                         )}
-                        {index === 1 && headingIndex === 1 && <CardTravel />}
-                        {index === 1 && headingIndex === 2 && <Castle />}
-                        {index === 1 && headingIndex === 3 && <BakeryDining />}
+                        {index === 1 && headingIndex === 1 && <CardTravel sx={{ mr: 1 }} />}
+                        {index === 1 && headingIndex === 2 && <Castle sx={{ mr: 1 }} />}
+                        {index === 1 && headingIndex === 3 && <BakeryDining sx={{ mr: 1 }} />}
                         {index === 1 && headingIndex === 4 && (
-                          <LocalFireDepartment />
+                          <LocalFireDepartment sx={{ mr: 1 }} />
                         )}
-                        {index === 1 && headingIndex === 5 && <Celebration />}
-                        {index === 1 && headingIndex === 6 && <LocationCity />}
-                        {index === 2 && headingIndex === 0 && <Favorite />}
-                        {index === 2 && headingIndex === 1 && <Chalet />}
+                        {index === 1 && headingIndex === 5 && <Celebration sx={{ mr: 1 }} />}
+                        {index === 1 && headingIndex === 6 && <LocationCity sx={{ mr: 1 }} />}
+                        {index === 2 && headingIndex === 0 && <Favorite sx={{ mr: 1 }} />}
+                        {index === 2 && headingIndex === 1 && <Chalet sx={{ mr: 1 }} />}
                         <Typography>
                           {getHeadingTranslation(heading, selectedLanguage)}
                         </Typography>
