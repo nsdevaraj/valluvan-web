@@ -23,6 +23,7 @@ function NetworkGraph({ setSearchTerm, onSearchSubmit }) {
         nodes.push({
           data: {
             id: `${i}`,
+            label: thresold > 8 ? `Kural ${i}` : `${i}`,
             weight: weight,
             visible: weight >= 14,
             size: weight >= 14 ? 30 : 10,
@@ -81,7 +82,7 @@ function NetworkGraph({ setSearchTerm, onSearchSubmit }) {
             style: {
               "background-color": "mapData(weight, 5, 33, #66ffff, #FF0000)",
               visibility: "data(visible) ? 'visible' : 'hidden'",
-              label: "data(id)",
+              label: "data(label)",
               "font-size": "16px",
               color: "#ffffff",
               width: "data(size)",
